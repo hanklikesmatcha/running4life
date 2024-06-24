@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
+import FeedbackButton from "./components/FeedbackButton";
 
 const cards = [
   {
@@ -211,6 +212,7 @@ const Home = () => {
           </div>
         ))}
       </div>
+      <FeedbackButton />
     </div>
   );
 };
