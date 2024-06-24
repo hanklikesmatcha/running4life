@@ -1,4 +1,5 @@
 import React from "react";
+import Image from 'next/image'
 
 const cards = [
   {
@@ -96,7 +97,7 @@ const cards = [
   {
     title: "Monday Underground™️💙👟",
     description: "Every Monday from the @northcotetavern 7.00pm (NEW TIME: 6.40pm for walkers) 🏃🏽‍♀️🏃🏽‍♂️",
-    time: "Monday, 6:00 PM",
+    time: "Monday, 7:00 PM",
     location: "Northcote Tavern, Northcote",
     distance: "-",
     speed: "Casual pace",
@@ -129,7 +130,11 @@ const cards = [
 const Home = () => {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-base-200 py-10">
-      <h1 className="mb-10 text-4xl font-bold text-primary">Running 4 life</h1>
+         <div className="mb-10 p-8 bg-gradient-to-r from-pink-200 to-pink-400 rounded-lg">
+        <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-purple-500">
+          Running 4 Life
+        </h1>
+      </div>
       <div className="flex w-full flex-col items-center gap-6">
         {cards.map((card, index) => (
           <div
