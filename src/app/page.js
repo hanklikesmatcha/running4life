@@ -134,7 +134,7 @@ const Home = () => {
   const [emojiCounts, setEmojiCounts] = useState({
     "🏎️": 0,
     "💛": 0,
-    "🏃": 0,
+    "🥵": 0,
     "👫": 0,
     "🏞": 0
   });
@@ -145,7 +145,6 @@ const Home = () => {
       [emoji]: prevCounts[emoji] + 1
     }));
   };
-
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-r from-pink-200 to-pink-400 py-10">
       <div className="mb-10 p-8">
@@ -153,12 +152,12 @@ const Home = () => {
           Running 4 Life
         </h1>
       </div>
-      <div className="flex w-full flex-col items-center gap-6">
+      <div className="flex w-full flex-col items-center gap-6 pb-12">
         {cards.map((card, index) => (
           <div
             key={index}
             className="hover:bg-primary-focus aspect-w-16 aspect-h-9 card w-full max-w-4xl bg-base-100 shadow-xl transition-colors duration-300">
-            <div className="card-body">
+            <div className="card-body p-6">
               <div className="flex items-center justify-start gap-2">
                 <h2 className="card-title text-secondary">{card.title}</h2>
                 <a
@@ -170,39 +169,41 @@ const Home = () => {
                 </a>
               </div>
               <p className="mb-4 text-accent">{card.description}</p>
-              <div className="mt-2 overflow-x-auto border-t pt-2">
-                <table className="table w-full text-black">
-                  <thead className="bg-gray-200">
-                    <tr>
-                      <th>Date</th>
-                      <th>Location</th>
-                      <th>Distance</th>
-                      <th>Speed</th>
-                      <th>Size</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>{card.time}</td>
-                      <td>{card.location}</td>
-                      <td>{card.distance}</td>
-                      <td>{card.speed}</td>
-                      <td>{card.size}</td>
-                    </tr>
-                  </tbody>
-                </table>
+              <div className="mt-2 border-t pt-2">
+                <div className="w-full flex justify-center">
+                  <table className="table w-full max-w-full text-black">
+                    <thead className="bg-gray-200">
+                      <tr>
+                        <th>Date</th>
+                        <th>Location</th>
+                        <th>Distance</th>
+                        <th>Speed</th>
+                        <th>Size</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>{card.time}</td>
+                        <td>{card.location}</td>
+                        <td>{card.distance}</td>
+                        <td>{card.speed}</td>
+                        <td>{card.size}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
               </div>
-              <div className="mt-4 flex justify-around border-t border-gray-300 pt-4">
+              <div className="mt-2 flex justify-around pt-2 gap-4">
                 {Object.keys(emojiCounts).map((emoji, idx) => (
                   <div
                     key={emoji}
-                    className={`flex items-center justify-self-center align-middle ${idx > 0 ? "border-l border-gray-300" : ""} px-4`}>
+                    className={`flex items-center align-middle border-2 shadow-md border-pink-200 outline-offset-4 rounded-xl`}>
                     <button
                       onClick={() => handleEmojiClick(emoji)}
-                      className="flex transform items-center text-2xl transition-transform hover:scale-110 active:scale-90">
+                      className="flex transform text-2xl transition-transform hover:scale-110 active:scale-90">
                       {emoji}
                     </button>
-                    <span className="ml-2 flex items-center text-xl text-black">
+                    <span className="ml-2 flex text-xl text-black">
                       {emojiCounts[emoji]}
                     </span>
                   </div>
@@ -212,7 +213,7 @@ const Home = () => {
           </div>
         ))}
       </div>
-      <FeedbackButton />
+        <FeedbackButton />
     </div>
   );
 };
