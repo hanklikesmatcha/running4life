@@ -9,8 +9,8 @@ const cards = [
     description: "come move and groove with us!",
     time: "Sun, 6:45 AM",
     location: "Vellenoweth Green, St Heliers",
-    distance: "15 KM",
-    speed: "6 - 7 min/km",
+    distance: "Varies",
+    speed: "Varies",
     instagram: "https://instagram.com/re.movementclub",
     size: "M"
   },
