@@ -1,4 +1,6 @@
-import React from "react";
+'use client';
+
+import React, { useState } from "react";
 import Image from 'next/image'
 
 const cards = [
@@ -128,6 +130,21 @@ const cards = [
 ];
 
 const Home = () => {
+  const [emojiCounts, setEmojiCounts] = useState({
+    '🏎️': 0,
+    '💛': 0,
+    '🏃': 0,
+    '👫': 0,
+    '🏞': 0,
+  });
+  
+  const handleEmojiClick = (emoji) => {
+    setEmojiCounts((prevCounts) => ({
+      ...prevCounts,
+      [emoji]: prevCounts[emoji] + 1,
+    }));
+  };
+  
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-base-200 py-10">
          <div className="mb-10 p-8 bg-gradient-to-r from-pink-200 to-pink-400 rounded-lg">
@@ -173,6 +190,16 @@ const Home = () => {
                     </tr>
                   </tbody>
                 </table>
+              </div>
+              <div className="flex justify-around mt-4 border-t border-gray-300 pt-4">
+                {Object.keys(emojiCounts).map((emoji, idx) => (
+                  <div key={emoji} className={`flex justify-self-center items-center align-middle ${idx > 0 ? 'border-l border-gray-300' : ''} px-4`}>
+                    <button onClick={() => handleEmojiClick(emoji)} className="text-2xl transition-transform transform hover:scale-110 active:scale-90 flex items-center">
+                      {emoji}
+                    </button>
+                    <span className="ml-2 text-xl flex items-center text-black">{emojiCounts[emoji]}</span>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
