@@ -1,113 +1,180 @@
-import Image from "next/image";
+import React from "react";
 
-export default function Home() {
+const cards = [
+  {
+    title: "re:movement",
+    description: "come move and groove with us!",
+    time: "Sun, 6:45 AM",
+    location: "Vellenoweth Green, St Heliers",
+    distance: "15 KM",
+    speed: "6 - 7 min/km",
+    instagram: "https://instagram.com/re.movementclub",
+    size: "M"
+  },
+  {
+    title: "RUN4 | Running Community",
+    description: "Running for all fitness levels",
+    time: "Sun, 8:50 AM",
+    location: "Victorica Park, CBD",
+    distance: "5 - 7 km",
+    speed: "5 - 7 min/km",
+    instagram: "https://instagram.com/run4auckland",
+    size: "Large"
+  },
+  {
+    title: "445 RUN CLUB NZ",
+    description: "445 AM WE MEET. 500 AM WE MOVE.",
+    time: "Fri, 4:45 AM",
+    location: "Akarana Eatery, Orakei",
+    distance: "-",
+    speed: "-",
+    instagram: "https://instagram.com/445_run_club",
+    size: "L"
+  },
+  {
+    title: "Slow Sunday",
+    description: "A relaxed, community-oriented running club.",
+    date: "Sundays",
+    time: "-",
+    location: "Various locations in Auckland",
+    distance: "Varies",
+    speed: "Casual pace",
+    instagram: "https://instagram.com/slowsundaysrunclub",
+    size: "M"
+  },
+  {
+    title: "Just Another Run Club",
+    description: "Auckland based running group",
+    time: "Sat, 8:00 AM",
+    location: "Auckland Domain, Parnell",
+    distance: " 7- 9 & 15 KM",
+    speed: "-",
+    instagram: "https://instagram.com/justanotherrun.club",
+    size: "M"
+  },
+  {
+    title: "NAARC (North Auckland Athletics & Running Club)",
+    description: "A club focused on athletics and running in North Auckland.",
+    date: "-",
+    time: "-",
+    location: "North Auckland",
+    distance: "Varies",
+    speed: "Varies",
+    instagram: "-",
+    size: "-"
+  },
+  {
+    title: "NARC",
+    description: "NOT A RUN CLUB",
+    time: "-",
+    location: "Varies",
+    distance: "Varies",
+    speed: "-",
+    instagram: "https://instagram.com/runwithnarc",
+    size: "L"
+  },
+  {
+    title: "Beer Jerk Run Club",
+    description: "🏃🏽A Running Club with a big social side",
+    time: "Mon, 5:30 PM",
+    location: "Small Gods Taproom, Eden Terrace",
+    distance: "-",
+    speed: "-",
+    instagram: "https://instagram.com/beerjerkrunclub",
+    size: "L"
+  },
+  {
+    title: "Grave Runners",
+    description: "Grave Runners™",
+    time: "Wed, 6:00 PM",
+    location: "Silo Park, Auckland CBD",
+    distance: "6 KM",
+    speed: "-",
+    instagram: "https://instagram.com/graverunners",
+    size: "Large"
+  },
+  {
+    title: "Monday Underground™️💙👟",
+    description: "Every Monday from the @northcotetavern 7.00pm (NEW TIME: 6.40pm for walkers) 🏃🏽‍♀️🏃🏽‍♂️",
+    time: "Monday, 6:00 PM",
+    location: "Northcote Tavern, Northcote",
+    distance: "-",
+    speed: "Casual pace",
+    instagram: "https://instagram.com/mondayunderground",
+    size: "L"
+  },
+  {
+    title: "Fearless (261 Fearless)",
+    description:
+      "Be fearless, be free. Womens only running groups",
+    time: "Sat, 9:00 AM",
+    location: "Auckland Domain, Parnell",
+    distance: "-",
+    speed: "Social Pace",
+    instagram: "https://instagram.com/261fearlessclubnz",
+    size: "S"
+  },
+  {
+    title: "Metrorun",
+    description: "A casual Auckland-based running group.",
+    time: "Sun, 8:00 AM",
+    location: "Various locations in Auckland",
+    distance: "Varies",
+    speed: "Casual pace",
+    instagram: "https://metrorun.nz/app/routes/calendar",
+    size: "-"
+  }
+];
+
+const Home = () => {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/app/page.js</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
+    <div className="flex min-h-screen flex-col items-center justify-center bg-base-200 py-10">
+      <h1 className="mb-10 text-4xl font-bold text-primary">Running 4 life</h1>
+      <div className="flex w-full flex-col items-center gap-6">
+        {cards.map((card, index) => (
+          <div
+            key={index}
+            className="hover:bg-primary-focus aspect-w-16 aspect-h-9 card w-full max-w-4xl bg-base-100 shadow-xl transition-colors duration-300">
+            <div className="card-body">
+              <div className="flex items-center justify-start gap-2">
+                <h2 className="card-title text-secondary">{card.title}</h2>
+                <a
+                  href={`https://instagram.com/${card.instagram}`}
+                  className="text-blue-500 text-sm"                  
+                  target="_blank"
+                  rel="noopener noreferrer">
+                    🔗
+                </a>
+              </div>
+              <p className="mb-4 text-accent">{card.description}</p>
+              <div className="mt-2 overflow-x-auto border-t pt-2">
+                <table className="table w-full text-black">
+                  <thead className="bg-gray-200">
+                    <tr>
+                      <th>Date</th>
+                      <th>Location</th>
+                      <th>Distance</th>
+                      <th>Speed</th>
+                      <th>Size</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>{card.time}</td>
+                      <td>{card.location}</td>
+                      <td>{card.distance}</td>
+                      <td>{card.speed}</td>
+                      <td>{card.size}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
-
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-full sm:before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full sm:after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800 hover:dark:bg-opacity-30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50 text-balance`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+    </div>
   );
-}
+};
+
+export default Home;
