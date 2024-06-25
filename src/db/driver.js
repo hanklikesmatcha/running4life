@@ -17,7 +17,6 @@ export class MongoDBClient {
     async connect() {
       try {
         await this.client.connect();
-        console.log("Connected to MongoDB");
       } catch (error) {
         console.error("Error connecting to MongoDB:", error);
         throw error;
@@ -27,7 +26,6 @@ export class MongoDBClient {
     async disconnect() {
       try {
         await this.client.close();
-        console.log("Disconnected from MongoDB");
       } catch (error) {
         console.error("Error disconnecting from MongoDB:", error);
         throw error;
