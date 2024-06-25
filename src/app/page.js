@@ -115,7 +115,7 @@ const Home = () => {
     <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-r from-pink-200 to-purple-400 py-8">
       <div>
         <Image
-          src="/logo.png" // Ensure the file name and path are correct
+          src="/logo.png"
           alt="Running Club"
           width={400}
           height={400}
