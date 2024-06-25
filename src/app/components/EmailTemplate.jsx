@@ -2,7 +2,7 @@ import React from "react";
 
 export const EmailTemplate = ({ email, comment }) => (
   <div style={styles.container}>
-    <h1 style={styles.heading}>Hi ${email}!</h1>
+    <h1 style={styles.heading}>From {email}!</h1>
     <p style={styles.comment}>{comment}</p>
   </div>
 );
@@ -21,9 +21,10 @@ const styles = {
   },
   heading: {
     fontSize: "24px",
-    color: "#4CAF50"
+    color: "#222222"
   },
   comment: {
-    fontSize: "16px"
+    fontSize: "18px",
+    color: "#222222"
   }
 };
