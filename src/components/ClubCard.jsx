@@ -2,7 +2,6 @@ import React from "react";
 import EmojiCounter from "./EmojiCounter.jsx";
 
 const ClubCard = ({ club, handleReaction }) => {
-  // Ensure reactions is always an object
   const reactions = club.reactions || {
     "💛": 0,
     "🏎️": 0,
