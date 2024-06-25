@@ -1,3 +1,4 @@
+// src/hooks/useClubs.js
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 const fetchClubs = async () => {
@@ -9,7 +10,10 @@ const fetchClubs = async () => {
 };
 
 export const useClubs = () => {
-  return useQuery("clubs", fetchClubs);
+  return useQuery({
+    queryKey: ["clubs"],
+    queryFn: fetchClubs
+  });
 };
 
 const handleReaction = async ({ clubId, emoji, userId }) => {
@@ -32,12 +36,13 @@ const handleReaction = async ({ clubId, emoji, userId }) => {
 export const useReactionMutation = () => {
   const queryClient = useQueryClient();
 
-  return useMutation(handleReaction, {
+  return useMutation({
+    mutationFn: handleReaction,
     onMutate: async ({ clubId, emoji, userId }) => {
-      await queryClient.cancelQueries("clubs");
-      const previousClubs = queryClient.getQueryData("clubs");
+      await queryClient.cancelQueries({ queryKey: ["clubs"] });
+      const previousClubs = queryClient.getQueryData(["clubs"]);
 
-      queryClient.setQueryData("clubs", (oldClubs) =>
+      queryClient.setQueryData(["clubs"], (oldClubs) =>
         oldClubs.map((club) => {
           if (club._id === clubId) {
             const updatedReactions = { ...club.reactions };
@@ -60,10 +65,10 @@ export const useReactionMutation = () => {
       return { previousClubs };
     },
     onError: (err, variables, context) => {
-      queryClient.setQueryData("clubs", context.previousClubs);
+      queryClient.setQueryData(["clubs"], context.previousClubs);
     },
     onSettled: () => {
-      queryClient.invalidateQueries("clubs");
+      queryClient.invalidateQueries({ queryKey: ["clubs"] });
     }
   });
 };
