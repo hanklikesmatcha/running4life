@@ -152,7 +152,7 @@ const Home = () => {
           Running 4 Life
         </h1> */}
         <Image
-          src="/Logo.png"
+          src="/logo.png"
           alt="Running Club"
           width={400}
           height={400}
@@ -204,7 +204,7 @@ const Home = () => {
                 {Object.keys(emojiCounts).map((emoji, idx) => (
                   <div
                     key={emoji}
-                    className={`flex items-center align-middle border-2 shadow-md border-pink-200 outline-offset-4 rounded-xl`}>
+                    className={`flex items-center align-middle border-2 shadow-md ring-pink-200 rounded-xl outline-2 ring-1 ring-offset-4`}>
                     <button
                       onClick={() => handleEmojiClick(emoji)}
                       className="flex transform text-2xl transition-transform hover:scale-110 active:scale-90">
