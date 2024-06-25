@@ -4,8 +4,6 @@ import Club from "@/models/club";
 export async function GET(request) {
   try {
     await dbConnect();
-    console.log("Connected to the database");
-
     // Fetch the updated clubs
     const clubs = await Club.find().lean();
 
