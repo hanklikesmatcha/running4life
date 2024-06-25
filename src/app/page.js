@@ -7,8 +7,8 @@ import FeedbackButton from "./components/FeedbackButton";
 const Home = () => {
   const [clubs, setClubs] = useState([]);
   const [emojiCounts, setEmojiCounts] = useState({
-    "🏎️": 0,
     "💛": 0,
+    "🏎️": 0,
     "🥵": 0,
     "👫": 0,
     "🏞": 0
@@ -41,7 +41,7 @@ const Home = () => {
           className="m-0 p-0"
         />
       </div>
-      <div className="flex w-full flex-col items-center gap-6 pb-12">
+      <div className="flex w-full flex-col items-center gap-6 pb-10">
         {clubs.map((card, index) => (
           <div
             key={index}
@@ -50,14 +50,14 @@ const Home = () => {
               <div className="flex items-center justify-start gap-2">
                 <h2 className="card-title text-secondary">{card.title}</h2>
                 <a
-                  href={`https://instagram.com/${card.instagram}`}
+                  href={card.instagram}
                   className="text-sm text-blue-500"
                   target="_blank"
                   rel="noopener noreferrer">
                   🔗
                 </a>
               </div>
-              <p className="mb-4 text-accent">{card.description}</p>
+              <p className="text-accent">{card.description}</p>
               <div className="mt-2 border-t pt-2">
                 <div className="w-full flex justify-center">
                   <table className="table w-full max-w-full text-black">
@@ -86,7 +86,7 @@ const Home = () => {
                 {Object.keys(emojiCounts).map((emoji, idx) => (
                   <div
                     key={emoji}
-                    className={`flex items-center align-middle border-2 shadow-md ring-pink-200 rounded-xl outline-2 ring-1 ring-offset-4`}>
+                    className="flex items-center align-middle border-0 shadow-md border-purple-300 ring-pink-200 rounded-xl outline-2 ring-2 ring-offset-4">
                     <button
                       onClick={() => handleEmojiClick(emoji)}
                       className="flex transform text-2xl transition-transform hover:scale-110 active:scale-90">
