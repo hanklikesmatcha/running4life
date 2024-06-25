@@ -146,11 +146,18 @@ const Home = () => {
     }));
   };
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-r from-pink-200 to-pink-400 py-10">
-      <div className="mb-10 p-8">
-        <h1 className="bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-4xl font-bold text-transparent">
+    <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-r from-pink-200 to-pink-400 py-8">
+      <div className="mb-10 p-2">
+        {/* <h1 className="bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-4xl font-bold text-transparent">
           Running 4 Life
-        </h1>
+        </h1> */}
+        <Image
+          src="/Logo.png"
+          alt="Running Club"
+          width={250}
+          height={250}
+          className="rounded-full border-offset-10 border-4 border-pink-200 shadow-xl"
+        />
       </div>
       <div className="flex w-full flex-col items-center gap-6 pb-12">
         {cards.map((card, index) => (
