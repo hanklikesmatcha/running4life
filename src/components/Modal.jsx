@@ -20,11 +20,11 @@ const Modal = ({ isOpen, onClose, message }) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
       <div
-        className={`relative transform rounded-lg bg-white p-6 shadow-lg transition-all duration-450 ${
+        className={`duration-450 relative transform rounded-lg bg-white p-4 shadow-lg transition-all sm:p-6 ${
           visible
-            ? "rotate-6 scale-150 opacity-100"
+            ? "rotate-6 scale-110 opacity-100"
             : "rotate-0 scale-90 opacity-0"
-        }`}
+        } w-10/12 sm:w-8/12 md:w-1/2 lg:w-1/3 xl:w-1/4`}
         onClick={(e) => e.stopPropagation()}>
         <button
           onClick={() => {
