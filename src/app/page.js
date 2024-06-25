@@ -41,6 +41,32 @@ const Home = () => {
   const handleReaction = async (clubId, emoji) => {
     if (!visitorId) return;
 
+    // Optimistically update state
+    setClubs((prevClubs) =>
+      prevClubs.map((club) => {
+        if (club._id === clubId) {
+          const updatedReactions = { ...club.reactions };
+
+          // Find previous reaction by the user and decrement its count
+          for (const [key, value] of Object.entries(updatedReactions)) {
+            if (value > 0 && key !== emoji) {
+              updatedReactions[key] -= 1;
+              break;
+            }
+          }
+
+          // Increment the count of the new reaction
+          updatedReactions[emoji] = (updatedReactions[emoji] || 0) + 1;
+
+          return {
+            ...club,
+            reactions: updatedReactions
+          };
+        }
+        return club;
+      })
+    );
+
     try {
       const response = await fetch("/api/reactions", {
         method: "POST",
@@ -51,43 +77,37 @@ const Home = () => {
       });
 
       const data = await response.json();
-      if (response.ok) {
-        setModalMessage(data.message);
-        setIsModalOpen(true);
-
-        // Update state to reflect the new reaction immediately
-        setClubs((prevClubs) =>
-          prevClubs.map((club) => {
-            if (club._id === clubId) {
-              const updatedReactions = { ...club.reactions };
-
-              // Find previous reaction by the user and decrement its count
-              for (const [key, value] of Object.entries(updatedReactions)) {
-                if (value > 0 && key !== emoji) {
-                  updatedReactions[key] -= 1;
-                  break;
-                }
-              }
-
-              // Increment the count of the new reaction
-              updatedReactions[emoji] = (updatedReactions[emoji] || 0) + 1;
-
-              return {
-                ...club,
-                reactions: updatedReactions
-              };
-            }
-            return club;
-          })
-        );
-      } else {
-        setModalMessage(data.message);
-        setIsModalOpen(true);
+      if (!response.ok) {
+        throw new Error(data.message);
       }
+      setModalMessage(data.message);
+      setIsModalOpen(true);
     } catch (error) {
       console.error("Error:", error);
-      setModalMessage("An error occurred. Please try again.");
+      setModalMessage(error.message);
       setIsModalOpen(true);
+
+      // Revert the optimistic update on error
+      setClubs((prevClubs) =>
+        prevClubs.map((club) => {
+          if (club._id === clubId) {
+            const updatedReactions = { ...club.reactions };
+
+            // Revert the changes by resetting the reactions
+            for (const [key, value] of Object.entries(updatedReactions)) {
+              if (key === emoji) {
+                updatedReactions[key] -= 1;
+              }
+            }
+
+            return {
+              ...club,
+              reactions: updatedReactions
+            };
+          }
+          return club;
+        })
+      );
     }
   };
 
