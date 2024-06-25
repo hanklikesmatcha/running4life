@@ -1,7 +1,9 @@
 {
   "compilerOptions": {
+    "paths": {
+      "@/*": ["./src/*"]
+    },
     "target": "es5",
-    "module": "commonjs",
     "allowSyntheticDefaultImports": true
   },
   "exclude": [
@@ -10,8 +12,5 @@
     "jspm_packages",
     "tmp",
     "temp"
-  ],
-  "paths": {
-    "@/*": ["./src/*"]
-  }
+  ]
 }

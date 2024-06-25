@@ -1,4 +1,4 @@
-import { MongoDBClient } from "@/db/driver.js"
+import { MongoDBClient } from "@/db/driver";
 export async function GET(request) {
 
     const client = new MongoDBClient();

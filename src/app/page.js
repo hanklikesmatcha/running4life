@@ -67,7 +67,6 @@ const Home = () => {
                         <th className="w-1/3">Location</th>
                         <th className="w-1/6">Distance</th>
                         <th className="w-1/6">Speed</th>
-                        <th className="w-1/6">Size</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -76,7 +75,6 @@ const Home = () => {
                         <td className="w-1/3">{card.location}</td>
                         <td className="w-1/6">{card.distance}</td>
                         <td className="w-1/6">{card.speed}</td>
-                        <td className="w-1/6">{card.size}</td>
                       </tr>
                     </tbody>
                   </table>
