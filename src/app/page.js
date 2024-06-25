@@ -23,7 +23,7 @@ const cards = [
     distance: "5 - 7 km",
     speed: "5 - 7 min/km",
     instagram: "https://instagram.com/run4auckland",
-    size: "Large"
+    size: "L"
   },
   {
     title: "445 RUN CLUB NZ",
@@ -95,7 +95,7 @@ const cards = [
     distance: "6 KM",
     speed: "-",
     instagram: "https://instagram.com/graverunners",
-    size: "Large"
+    size: "L"
   },
   {
     title: "Monday Underground™️💙👟",
@@ -145,14 +145,12 @@ const Home = () => {
       [emoji]: prevCounts[emoji] + 1
     }));
   };
+
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-r from-pink-200 to-purple-400 py-8">
       <div className="">
-        {/* <h1 className="bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-4xl font-bold text-transparent">
-          Running 4 Life
-        </h1> */}
         <Image
-          src="/logo.png"
+          src="/logo.png" // Ensure the file name and path are correct
           alt="Running Club"
           width={400}
           height={400}
@@ -181,20 +179,20 @@ const Home = () => {
                   <table className="table w-full max-w-full text-black">
                     <thead className="bg-gray-200">
                       <tr>
-                        <th>Date</th>
-                        <th>Location</th>
-                        <th>Distance</th>
-                        <th>Speed</th>
-                        <th>Size</th>
+                        <th className="w-1/6">Date</th>
+                        <th className="w-1/3">Location</th>
+                        <th className="w-1/6">Distance</th>
+                        <th className="w-1/6">Speed</th>
+                        <th className="w-1/6">Size</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr>
-                        <td>{card.time}</td>
-                        <td>{card.location}</td>
-                        <td>{card.distance}</td>
-                        <td>{card.speed}</td>
-                        <td>{card.size}</td>
+                        <td className="w-1/6">{card.time}</td>
+                        <td className="w-1/3">{card.location}</td>
+                        <td className="w-1/6">{card.distance}</td>
+                        <td className="w-1/6">{card.speed}</td>
+                        <td className="w-1/6">{card.size}</td>
                       </tr>
                     </tbody>
                   </table>
@@ -220,7 +218,7 @@ const Home = () => {
           </div>
         ))}
       </div>
-        <FeedbackButton />
+      <FeedbackButton />
     </div>
   );
 };
