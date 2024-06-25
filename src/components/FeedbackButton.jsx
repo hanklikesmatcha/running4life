@@ -1,10 +1,13 @@
 import React, { useState } from "react";
+import Modal from "@/components/Modal";
 
 const FeedbackButton = () => {
   const [showForm, setShowForm] = useState(false);
   const [email, setEmail] = useState("");
   const [comment, setComment] = useState("");
   const [errors, setErrors] = useState({});
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
 
   const handleClick = () => {
     setShowForm(true);
@@ -23,13 +26,22 @@ const FeedbackButton = () => {
       setErrors(newErrors);
       return;
     }
-    await fetch("/api/feedback", {
+    const response = await fetch("/api/feedback", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({ email, comment })
     });
+
+    if (response.ok) {
+      setModalMessage("Thank you for your feedback!");
+      setIsModalOpen(true);
+    } else {
+      setModalMessage("An error occurred. Please try again.");
+      setIsModalOpen(true);
+    }
+
     setShowForm(false);
     setEmail("");
     setComment("");
@@ -38,9 +50,7 @@ const FeedbackButton = () => {
 
   return (
     <div className="fixed bottom-4 right-4">
-      <button
-        onClick={handleClick}
-        className="btn btn-primary sm:p-2 sm:text-sm md:p-4">
+      <button onClick={handleClick} className="btn btn-primary">
         Feedback
       </button>
 
@@ -97,6 +107,11 @@ const FeedbackButton = () => {
           </div>
         </div>
       )}
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        message={modalMessage}
+      />
     </div>
   );
 };
