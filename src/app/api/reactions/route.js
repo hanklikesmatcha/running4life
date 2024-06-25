@@ -15,7 +15,7 @@ export async function POST(request) {
       if (existingReaction.emoji === emoji) {
         return new Response(
           JSON.stringify({
-            message: "User has already reacted to this club with the same emoji"
+            message: "You've already reacted to this club with the same emoji"
           }),
           {
             status: 400,
