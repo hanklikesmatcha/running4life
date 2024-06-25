@@ -6,9 +6,6 @@ export async function GET(request) {
     await dbConnect();
     console.log("Connected to the database");
 
-    // Debug: Check initial count of clubs
-    const initialClubs = await Club.find().lean();
-
     // Fetch the updated clubs
     const clubs = await Club.find().lean();
 
