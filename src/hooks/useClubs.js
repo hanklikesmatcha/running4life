@@ -17,6 +17,7 @@ export const useClubs = () => {
 };
 
 const handleReaction = async ({ clubId, emoji, userId }) => {
+  console.log("Visitor gives a reaction:", visitorId);
   const response = await fetch("/api/reactions", {
     method: "POST",
     headers: {
