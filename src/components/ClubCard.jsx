@@ -48,11 +48,11 @@ const ClubCard = ({ club, handleReaction }) => {
           </div>
         </div>
         <div className="mt-2 flex justify-around gap-4 pt-2">
-          {["💛", "🏎️", "🥵", "👫", "🏞"].map((emoji) => (
+          {Object.entries(reactions).map(([emoji, count]) => (
             <EmojiCounter
               key={emoji}
               emoji={emoji}
-              count={reactions[emoji] || 0}
+              count={count}
               onClick={() => handleReaction(club._id, emoji)}
             />
           ))}
