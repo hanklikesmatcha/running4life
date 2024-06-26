@@ -3,15 +3,17 @@ import Image from "next/image";
 import FeedbackButton from "@/components/FeedbackButton";
 import ClubCard from "@/components/ClubCard";
 import FingerprintJS from "@fingerprintjs/fingerprintjs";
+import Notification from "@/components/Notification";
 import Modal from "@/components/Modal";
 import { useClubs, useReactionMutation } from "@/hooks/useClubs";
 
 const Home = () => {
   const { data: clubs, error, isLoading } = useClubs();
-  const { mutate: reactToClub } = useReactionMutation();
+  const { mutate: reactToClub, error: mutationError } = useReactionMutation();
   const [visitorId, setVisitorId] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
+  const [notification, setNotification] = useState("");
 
   useEffect(() => {
     const getFingerprint = async () => {
@@ -24,6 +26,12 @@ const Home = () => {
     getFingerprint();
   }, []);
 
+  useEffect(() => {
+    if (mutationError) {
+      setNotification(mutationError.message);
+    }
+  }, [mutationError]);
+
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
 
@@ -34,6 +42,10 @@ const Home = () => {
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-r from-pink-200 to-purple-400 py-8">
+      <Notification
+        message={notification}
+        onClose={() => setNotification("")}
+      />
       <div>
         <Image
           src="/logo.png"

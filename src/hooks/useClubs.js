@@ -1,4 +1,3 @@
-// src/hooks/useClubs.js
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 const fetchClubs = async () => {
@@ -17,7 +16,7 @@ export const useClubs = () => {
 };
 
 const handleReaction = async ({ clubId, emoji, userId }) => {
-  console.log("Visitor gives a reaction:", visitorId);
+  console.log("Visitor gives a reaction:", userId);
   const response = await fetch("/api/reactions", {
     method: "POST",
     headers: {
@@ -62,11 +61,11 @@ export const useReactionMutation = () => {
           return club;
         })
       );
-
       return { previousClubs };
     },
     onError: (err, variables, context) => {
       queryClient.setQueryData(["clubs"], context.previousClubs);
+      throw err; // Ensure error is propagated
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["clubs"] });

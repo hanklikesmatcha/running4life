@@ -8,7 +8,7 @@ const Modal = ({ isOpen, onClose, message }) => {
       setVisible(true);
       const timer = setTimeout(() => {
         setVisible(false);
-        setTimeout(() => onClose(), 450); // Additional delay to allow the animation to complete
+        setTimeout(() => onClose(), 400); // Additional delay to allow the animation to complete
       }, 1350);
 
       return () => clearTimeout(timer);

@@ -31,3 +31,28 @@ body {
     text-wrap: balance;
   }
 }
+
+/* Animation for buttons */
+@keyframes ring {
+  0% {
+    box-shadow: 0 0 0 0 rgba(128, 0, 128, 0.5), 0 0 15px 5px rgba(128, 0, 128, 0.1);
+  }
+  25% {
+    box-shadow: 0 0 0 10px rgba(128, 0, 128, 0.5), 0 0 15px 10px rgba(128, 0, 128, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 0 20px rgba(128, 0, 128, 0.5), 0 0 15px 20px rgba(128, 0, 128, 0.1);
+  }
+  75% {
+    box-shadow: 0 0 0 10px rgba(128, 0, 128, 0.5), 0 0 15px 10px rgba(128, 0, 128, 0.1);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(128, 0, 128, 0.5), 0 0 15px 5px rgba(128, 0, 128, 0.1);
+  }
+}
+
+.animate-ring {
+  animation: ring 1.5s ease-in-out;
+  border-radius: 50%;
+}
+
