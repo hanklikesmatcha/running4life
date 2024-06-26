@@ -26,21 +26,21 @@ const ClubCard = ({ club, handleReaction }) => {
         <p className="text-accent">{club.description}</p>
         <div className="mt-2 border-t pt-2">
           <div className="flex w-full justify-center">
-            <table className="table w-full max-w-full text-black">
+            <table className="table w-full max-w-full text-sm text-black md:text-base">
               <thead className="bg-gray-200">
                 <tr>
-                  <th className="w-1/6">Date</th>
-                  <th className="w-1/3">Location</th>
-                  <th className="w-1/6">Distance</th>
-                  <th className="w-1/6">Speed</th>
+                  <th className="w-1/6 p-1 md:p-2">Date</th>
+                  <th className="w-1/3 p-1 md:p-2">Location</th>
+                  <th className="w-1/6 p-1 md:p-2">Distance</th>
+                  <th className="w-1/6 p-1 md:p-2">Speed</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td className="w-1/6">{club.time}</td>
-                  <td className="w-1/3">{club.location}</td>
-                  <td className="w-1/6">{club.distance}</td>
-                  <td className="w-1/6">{club.speed}</td>
+                  <td className="w-1/6 p-1 md:p-2">{club.time}</td>
+                  <td className="w-1/3 p-1 md:p-2">{club.location}</td>
+                  <td className="w-1/6 p-1 md:p-2">{club.distance}</td>
+                  <td className="w-1/6 p-1 md:p-2">{club.speed}</td>
                 </tr>
               </tbody>
             </table>

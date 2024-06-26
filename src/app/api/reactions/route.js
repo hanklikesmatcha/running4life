@@ -1,14 +1,26 @@
 import dbConnect from "@/utils/dbConnect";
 import Reaction from "@/models/reaction";
 import Club from "@/models/club";
+import { LRUCache } from "lru-cache";
+
+const cache = new LRUCache({
+  max: 500, // Maximum number of items in cache
+  ttl: 1000 * 60 * 5 // Cache expiry time in milliseconds
+});
 
 export async function POST(request) {
   try {
     const { clubId, emoji, userId } = await request.json();
     await dbConnect();
 
-    // Check if the user has already reacted to the club
-    const existingReaction = await Reaction.findOne({ clubId, userId });
+    const cacheKey = `reaction-${clubId}-${userId}`;
+    let existingReaction = cache.get(cacheKey);
+
+    if (!existingReaction) {
+      // Check if the user has already reacted to the club
+      existingReaction = await Reaction.findOne({ clubId, userId });
+      cache.set(cacheKey, existingReaction);
+    }
 
     if (existingReaction) {
       // If the reaction is the same, do nothing
@@ -38,6 +50,9 @@ export async function POST(request) {
         $inc: { [`reactions.${emoji}`]: 1 }
       });
 
+      // Update the cache with the new reaction
+      cache.set(cacheKey, existingReaction);
+
       return new Response(
         JSON.stringify({ message: "Reaction updated successfully" }),
         {
@@ -54,6 +69,9 @@ export async function POST(request) {
       await Club.findByIdAndUpdate(clubId, {
         $inc: { [`reactions.${emoji}`]: 1 }
       });
+
+      // Cache the new reaction
+      cache.set(cacheKey, reaction);
 
       return new Response(
         JSON.stringify({ message: "Reaction added successfully" }),

@@ -5,6 +5,8 @@ import ClubCard from "@/components/ClubCard";
 import FingerprintJS from "@fingerprintjs/fingerprintjs";
 import Notification from "@/components/Notification";
 import Modal from "@/components/Modal";
+import PageLoading from "@/components/PageLoading";
+import ErrorPageComponent from "@/components/PageError";
 import { useClubs, useReactionMutation } from "@/hooks/useClubs";
 
 const Home = () => {
@@ -32,8 +34,8 @@ const Home = () => {
     }
   }, [mutationError]);
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error.message}</div>;
+  if (isLoading) return <PageLoading />;
+  if (error) return <ErrorPageComponent message={error.message} />;
 
   const handleReactionClick = (clubId, emoji) => {
     if (!visitorId) return;
@@ -55,7 +57,7 @@ const Home = () => {
           className="m-0 p-0"
         />
       </div>
-      <div className="flex w-full flex-col items-center gap-6 pb-10">
+      <div className="flex w-full flex-col items-center gap-6 px-8 pb-10 md:px-0">
         {clubs?.map((club, index) => (
           <ClubCard
             key={index}

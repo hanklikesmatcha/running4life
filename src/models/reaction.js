@@ -5,11 +5,13 @@ const ReactionSchema = new mongoose.Schema(
     clubId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Club",
-      required: true
+      required: true,
+      index: true  // Add index here
     },
     userId: {
       type: String,
-      required: true
+      required: true,
+      index: true  // Add index here
     },
     emoji: {
       type: String,

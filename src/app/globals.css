@@ -32,27 +32,42 @@ body {
   }
 }
 
-/* Animation for buttons */
-@keyframes ring {
-  0% {
-    box-shadow: 0 0 0 0 rgba(128, 0, 128, 0.5), 0 0 15px 5px rgba(128, 0, 128, 0.1);
+/* Animation for EmojiCounter */
+@keyframes bounce {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0);
   }
-  25% {
-    box-shadow: 0 0 0 10px rgba(128, 0, 128, 0.5), 0 0 15px 10px rgba(128, 0, 128, 0.1);
+  10% {
+    transform: translateY(15px); /* Move down */
+  }
+  40% {
+    transform: translateY(-40px); /* Move up */
+  }
+  60% {
+    transform: translateY(-15px);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
   }
   50% {
-    box-shadow: 0 0 0 20px rgba(128, 0, 128, 0.5), 0 0 15px 20px rgba(128, 0, 128, 0.1);
-  }
-  75% {
-    box-shadow: 0 0 0 10px rgba(128, 0, 128, 0.5), 0 0 15px 10px rgba(128, 0, 128, 0.1);
+    transform: scale(1.1);
   }
   100% {
-    box-shadow: 0 0 0 0 rgba(128, 0, 128, 0.5), 0 0 15px 5px rgba(128, 0, 128, 0.1);
+    transform: scale(1);
   }
 }
 
-.animate-ring {
-  animation: ring 1.5s ease-in-out;
-  border-radius: 50%;
+.emoji-bounce {
+  animation: bounce 0.7s;
 }
 
+.emoji-pulse {
+  animation: pulse 0.7s;
+}
