@@ -11,9 +11,9 @@ const ClubCard = ({ club, handleReaction }) => {
   };
 
   return (
-    <div className="hover:bg-primary-focus aspect-w-16 aspect-h-9 card w-full max-w-4xl bg-base-100 shadow-xl transition-colors duration-300">
+    <div className="hover:bg-primary-focus card w-full max-w-4xl bg-base-100 shadow-xl transition-colors duration-300">
       <div className="card-body p-6">
-        <div className="flex items-center justify-start gap-2">
+        <div className="flex items-center justify-between">
           <h2 className="card-title text-secondary">{club.title}</h2>
           <a
             href={club.instagram}
@@ -26,7 +26,7 @@ const ClubCard = ({ club, handleReaction }) => {
         <p className="text-accent">{club.description}</p>
         <div className="mt-2 border-t pt-2">
           <div className="flex w-full justify-center">
-            <table className="table w-full max-w-full text-sm text-black md:text-base">
+            <table className="table w-full text-sm text-black md:text-base">
               <thead className="bg-gray-200">
                 <tr>
                   <th className="w-1/6 p-1 md:p-2">Date</th>
@@ -46,7 +46,7 @@ const ClubCard = ({ club, handleReaction }) => {
             </table>
           </div>
         </div>
-        <div className="mt-2 flex justify-around gap-4 pt-2">
+        <div className="mt-2 flex flex-wrap justify-around gap-2 pt-2">
           {Object.entries(reactions).map(([emoji, count]) => (
             <EmojiCounter
               key={emoji}

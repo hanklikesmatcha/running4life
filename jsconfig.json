@@ -1,16 +1,10 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
-    },
-    "target": "es5",
-    "allowSyntheticDefaultImports": true
+      "@/*": ["src/*"]
+    }
   },
-  "exclude": [
-    "node_modules",
-    "bower_components",
-    "jspm_packages",
-    "tmp",
-    "temp"
-  ]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"],
+  "exclude": ["node_modules"]
 }

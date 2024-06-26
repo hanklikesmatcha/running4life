@@ -1,5 +1,5 @@
-import dbConnect from "@/utils/dbConnect";
 import Club from "@/models/club";
+import dbConnect from "@/utils/dbConnect";
 
 export async function GET(request) {
   try {

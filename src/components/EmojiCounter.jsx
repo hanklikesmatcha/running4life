@@ -13,15 +13,14 @@ const EmojiCounter = ({ emoji, count, onClick }) => {
   };
 
   return (
-    <div className="flex items-center rounded-xl border-0 border-purple-300 align-middle shadow-md outline-2 ring-2 ring-pink-200 ring-offset-4">
+    <div className="flex items-center justify-center rounded-xl border-0 border-purple-300 shadow-md p-1 ring-2 ring-pink-200 ring-offset-2">
       <button
         onClick={handleClick}
-        className={`flex transform text-2xl transition-transform ${isAnimating ? "emoji-bounce" : ""}`}
+        className={`text-base sm:text-lg md:text-xl transition-transform ${isAnimating ? "emoji-bounce" : ""}`}
         disabled={isAnimating}>
         {emoji}
       </button>
-      <span
-        className={`ml-2 flex text-xl text-black ${isAnimating ? "emoji-pulse" : ""}`}>
+      <span className={`ml-1 sm:ml-2 text-xs sm:text-sm md:text-base text-black ${isAnimating ? "emoji-pulse" : ""}`}>
         {count}
       </span>
     </div>

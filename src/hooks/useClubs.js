@@ -38,7 +38,7 @@ export const useReactionMutation = () => {
 
   return useMutation({
     mutationFn: handleReaction,
-    onMutate: async ({ clubId, emoji, userId }) => {
+    onMutate: async ({ clubId, emoji }) => {
       await queryClient.cancelQueries({ queryKey: ["clubs"] });
       const previousClubs = queryClient.getQueryData(["clubs"]);
 

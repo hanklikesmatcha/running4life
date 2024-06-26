@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
-import Image from "next/image";
-import FeedbackButton from "@/components/FeedbackButton";
-import ClubCard from "@/components/ClubCard";
 import FingerprintJS from "@fingerprintjs/fingerprintjs";
-import Notification from "@/components/Notification";
+import Image from "next/image";
+
+import ClubCard from "@/components/ClubCard";
+import FeedbackButton from "@/components/FeedbackButton";
 import Modal from "@/components/Modal";
-import PageLoading from "@/components/PageLoading";
+import Notification from "@/components/Notification";
 import ErrorPageComponent from "@/components/PageError";
+import PageLoading from "@/components/PageLoading";
 import { useClubs, useReactionMutation } from "@/hooks/useClubs";
 
 const Home = () => {
@@ -39,7 +40,12 @@ const Home = () => {
 
   const handleReactionClick = (clubId, emoji) => {
     if (!visitorId) return;
-    reactToClub({ clubId, emoji, userId: visitorId });
+    const { data, isLoading, isError } = reactToClub({
+      clubId,
+      emoji,
+      userId: visitorId
+    });
+    console.log(data, isLoading, isError);
   };
 
   return (

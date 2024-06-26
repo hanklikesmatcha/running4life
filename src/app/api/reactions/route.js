@@ -1,7 +1,8 @@
+import { LRUCache } from "lru-cache";
+
 import dbConnect from "@/utils/dbConnect";
 import Reaction from "@/models/reaction";
 import Club from "@/models/club";
-import { LRUCache } from "lru-cache";
 
 const cache = new LRUCache({
   max: 500, // Maximum number of items in cache
