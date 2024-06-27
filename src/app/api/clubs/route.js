@@ -26,8 +26,6 @@ const sortByWeekdays = (clubs) => {
   const today = new Date().toLocaleString("en-US", { weekday: "long" });
   const shortToday = convertToShortDay(today);
   const weekdayOrder = getWeekdayOrder(shortToday);
-  console.log("Today:", shortToday);
-  console.log("Weekday Order:", weekdayOrder);
 
   return clubs.sort((a, b) => {
     const aWeekday = a.time.split(",")[0].trim();
@@ -36,7 +34,6 @@ const sortByWeekdays = (clubs) => {
     // Move '-' entries to the bottom
     if (aWeekday === "-") return 1;
     if (bWeekday === "-") return -1;
-
     return weekdayOrder.indexOf(aWeekday) - weekdayOrder.indexOf(bWeekday);
   });
 };
@@ -63,7 +60,6 @@ export async function GET(request) {
     if (clubs.length === 0) {
       console.log("No clubs found after update");
     }
-
     // Sort clubs by weekdays
     const sortedClubs = sortByWeekdays(clubs);
 
