@@ -68,8 +68,7 @@ const ClubCard = ({ club, handleReaction }) => {
             {club.photos.map((photo, index) => (
               <div
                 key={index}
-                className="relative w-full overflow-hidden rounded-lg"
-                style={{ paddingBottom: "75%" }} // 3:4 aspect ratio
+                className="relative w-full overflow-hidden rounded-lg pb-9by16"
               >
                 <Image
                   src={photo.url || placeholderImage}
