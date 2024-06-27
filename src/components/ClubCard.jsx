@@ -1,24 +1,33 @@
 import React from "react";
 import Image from "next/image";
+import { FaInstagram, FaLink } from "react-icons/fa"; // Import Instagram and link icons
 import EmojiCounter from "./EmojiCounter.jsx";
 
 const placeholderImage = "/examples/pink-frame.png";
+
+const isInstagramUrl = (url) => {
+  return url.includes("instagram.com");
+};
 
 const ClubCard = ({ club, handleReaction }) => {
   return (
     <div className="hover:bg-primary-focus card w-full max-w-4xl bg-base-100 shadow-xl transition-colors duration-300">
       <div className="card-body p-6">
         <div className="flex items-center justify-between">
-          <h2 className="card-title text-secondary">{club.title}</h2>
+          <h2 className="card-title text-secondary-content">{club.title}</h2>
           <a
             href={club.instagram}
-            className="text-sm text-blue-500"
+            className="text-2xl text-gray-800 hover:text-gray-900 lg:text-4xl"
             target="_blank"
             rel="noopener noreferrer">
-            🔗
+            {isInstagramUrl(club.instagram) ? (
+              <FaInstagram className="text-pink-600" />
+            ) : (
+              <FaLink className="text-blue-600" />
+            )}
           </a>
         </div>
-        <p className="text-accent">{club.description}</p>
+        <p className="text-accent-content">{club.description}</p>
         <div className="mt-2 border-t pt-2">
           <div className="flex w-full justify-center">
             <table className="table w-full text-sm text-black md:text-base">
@@ -42,7 +51,7 @@ const ClubCard = ({ club, handleReaction }) => {
           </div>
         </div>
         <div className="relative mt-2 flex flex-wrap justify-around gap-2 pt-10">
-          <div className="md:sm absolute left-0 top-0 text-base font-bold text-cyan-500">
+          <div className="absolute left-0 right-0 top-0 flex justify-center text-base font-normal text-zinc-950">
             Vibe
           </div>
           {Object.entries(club.reactions).map(([emoji, count]) => (
@@ -59,13 +68,14 @@ const ClubCard = ({ club, handleReaction }) => {
             {club.photos.map((photo, index) => (
               <div
                 key={index}
-                className="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-200">
+                className="relative w-full overflow-hidden rounded-lg"
+                style={{ paddingBottom: "75%" }} // 3:4 aspect ratio
+              >
                 <Image
                   src={photo.url || placeholderImage}
                   alt={`Club photo ${index + 1}`}
-                  width={240}
-                  height={320}
-                  className="h-full w-full object-cover"
+                  layout="fill"
+                  className="absolute h-full w-full object-cover"
                 />
               </div>
             ))}
