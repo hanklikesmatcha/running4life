@@ -75,11 +75,6 @@ class Document extends Document {
             href="/favicon-16x16.png"
           />
           <link rel="manifest" href="/manifest.json" />
-          <meta name="msapplication-TileColor" content="#ffffff" />
-          <meta name="msapplication-TileImage" content="/ms-icon-144x144.png" />
-          <meta name="theme-color" content="#ffffff" />
-          <meta name="image" property="og:image" content="/ms-icon-144x144.png"></meta>
-          <meta name="author" content="szuhan.eng@gmail.com"></meta>
         </Head>
         <body>
           <Main />
