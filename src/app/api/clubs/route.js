@@ -9,24 +9,9 @@ const getWeekdayOrder = (today) => {
   return [...days.slice(index), ...days.slice(0, index)];
 };
 
-const convertToShortDay = (fullDay) => {
-  const daysMap = {
-    Sunday: "Sun",
-    Monday: "Mon",
-    Tuesday: "Tue",
-    Wednesday: "Wed",
-    Thursday: "Thu",
-    Friday: "Fri",
-    Saturday: "Sat"
-  };
-  return daysMap[fullDay] || fullDay;
-};
-
 const sortByWeekdays = (clubs) => {
-  const today = new Date().toLocaleString("en-US", { weekday: "long" });
-  const shortToday = convertToShortDay(today);
-  const weekdayOrder = getWeekdayOrder(shortToday);
-
+  const today = new Date().toLocaleString("en-NZ", { weekday: "short" });
+  const weekdayOrder = getWeekdayOrder(today);
   return clubs.sort((a, b) => {
     const aWeekday = a.time.split(",")[0].trim();
     const bWeekday = b.time.split(",")[0].trim();
