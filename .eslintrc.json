@@ -6,6 +6,11 @@
     "plugin:import/errors",
     "plugin:import/warnings"
   ],
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "node": true
+  },
   "settings": {
     "import/resolver": {
       "alias": {
@@ -34,6 +39,15 @@
       }
     ],
     "react/react-in-jsx-scope": "off",
-    "react/jsx-props-no-spreading": "off"
+    "react/jsx-props-no-spreading": "off",
+    "no-undef": "error",
+    "no-unused-vars": [
+      "warn",
+      {
+        "vars": "all",
+        "args": "none",
+        "ignoreRestSiblings": false
+      }
+    ]
   }
 }

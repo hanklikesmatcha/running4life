@@ -1,5 +1,6 @@
 import { Resend } from "resend";
 import { EmailTemplate } from "@/components/EmailTemplate.jsx";
+export const revalidate = 0;
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 

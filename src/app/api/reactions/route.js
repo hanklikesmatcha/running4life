@@ -1,8 +1,9 @@
 import { LRUCache } from "lru-cache";
-
 import dbConnect from "@/utils/dbConnect";
 import Reaction from "@/models/reaction";
 import Club from "@/models/club";
+
+export const revalidate = 0;
 
 const cache = new LRUCache({
   max: 500, // Maximum number of items in cache
@@ -42,7 +43,7 @@ export async function POST(request) {
         $inc: { [`reactions.${existingReaction.emoji}`]: -1 }
       });
 
-      // Update the existing reaction
+      // Update the existing reaction with the new emoji
       existingReaction.emoji = emoji;
       await existingReaction.save();
 
@@ -63,8 +64,8 @@ export async function POST(request) {
       );
     } else {
       // Create a new reaction
-      const reaction = new Reaction({ clubId, userId, emoji });
-      await reaction.save();
+      const newReaction = new Reaction({ clubId, userId, emoji });
+      await newReaction.save();
 
       // Update the club's reactions count
       await Club.findByIdAndUpdate(clubId, {
@@ -72,7 +73,7 @@ export async function POST(request) {
       });
 
       // Cache the new reaction
-      cache.set(cacheKey, reaction);
+      cache.set(cacheKey, newReaction);
 
       return new Response(
         JSON.stringify({ message: "Reaction added successfully" }),

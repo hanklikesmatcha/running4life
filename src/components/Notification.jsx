@@ -17,10 +17,23 @@ const Notification = ({
 
   if (!message) return null;
 
+  const getGradientClass = (type) => {
+    switch (type) {
+      case "success":
+        return "from-pink-400 via-pink-300 to-purple-300";
+      case "error":
+        return "from-red-500 via-red-400 to-orange-400";
+      default:
+        return "from-gray-400 via-gray-300 to-gray-500";
+    }
+  };
+
   return (
     <div className="animate-fadeIn fixed left-1/2 top-16 z-50 -translate-x-1/2 transform">
       <div
-        className={`alert alert-${type} rounded-lg bg-gradient-to-r from-pink-400 via-pink-300 to-purple-300 p-4 shadow-lg`}>
+        className={`alert rounded-lg bg-gradient-to-r ${getGradientClass(
+          type
+        )} p-4 shadow-lg`}>
         <div>
           <span className="font-mono text-zinc-50">{message}</span>
         </div>

@@ -24,8 +24,7 @@ const Modal = ({ isOpen, onClose, message }) => {
           visible
             ? "rotate-6 scale-110 opacity-100"
             : "rotate-0 scale-90 opacity-0"
-        } w-10/12 sm:w-8/12 md:w-1/2 lg:w-1/3 xl:w-1/4`}
->
+        } w-10/12 sm:w-8/12 md:w-1/2 lg:w-1/3 xl:w-1/4`}>
         <button
           onClick={() => {
             setVisible(false);

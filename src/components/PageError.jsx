@@ -10,11 +10,13 @@ const ErrorPageComponent = ({ message }) => {
           </span>
         </div>
       </div>
-      
-      <h2 className="text-pink-500 text-3xl md:text-xl">Sorry, we are currently unavailable!</h2>
-        <h3 className="text-2xl text-pink-500 md:text-lg">
-            We will be back with you soon!
-        </h3>
+
+      <h2 className="text-3xl text-pink-500 md:text-xl">
+        Sorry, we are currently unavailable!
+      </h2>
+      <h3 className="text-2xl text-pink-500 md:text-lg">
+        We will be back with you soon!
+      </h3>
       <p className="text-lg text-pink-700 md:text-lg">
         {message || "Something went wrong!"}
       </p>

@@ -1,11 +1,12 @@
 import Club from "@/models/club";
 import dbConnect from "@/utils/dbConnect";
 
+export const revalidate = 0;
 export async function GET(request) {
   try {
     await dbConnect();
     // Fetch the updated clubs
-    const clubs = await Club.find().lean();
+    const clubs = await Club.find().sort({ priority: -1 }).lean();
 
     if (clubs.length === 0) {
       console.log("No clubs found after update");

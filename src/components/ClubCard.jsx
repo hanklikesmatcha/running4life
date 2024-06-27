@@ -1,15 +1,8 @@
+
 import React from "react";
 import EmojiCounter from "./EmojiCounter.jsx";
 
 const ClubCard = ({ club, handleReaction }) => {
-  const reactions = club.reactions || {
-    "💛": 0,
-    "🏎️": 0,
-    "🥵": 0,
-    "👫": 0,
-    "🏞": 0
-  };
-
   return (
     <div className="hover:bg-primary-focus card w-full max-w-4xl bg-base-100 shadow-xl transition-colors duration-300">
       <div className="card-body p-6">
@@ -27,7 +20,7 @@ const ClubCard = ({ club, handleReaction }) => {
         <div className="mt-2 border-t pt-2">
           <div className="flex w-full justify-center">
             <table className="table w-full text-sm text-black md:text-base">
-              <thead className="bg-gray-200">
+              <thead className="bg-red-200">
                 <tr>
                   <th className="w-1/6 p-1 md:p-2">Date</th>
                   <th className="w-1/3 p-1 md:p-2">Location</th>
@@ -46,8 +39,11 @@ const ClubCard = ({ club, handleReaction }) => {
             </table>
           </div>
         </div>
-        <div className="mt-2 flex flex-wrap justify-around gap-2 pt-2">
-          {Object.entries(reactions).map(([emoji, count]) => (
+        <div className="relative mt-2 flex flex-wrap justify-around gap-2 pt-10">
+          <div className="md:sm absolute left-0 top-0 text-base font-bold text-cyan-500">
+            Vibe 
+          </div>
+          {Object.entries(club.reactions).map(([emoji, count]) => (
             <EmojiCounter
               key={emoji}
               emoji={emoji}

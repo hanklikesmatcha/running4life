@@ -44,6 +44,11 @@ const ClubSchema = new mongoose.Schema(
         "👫": 0,
         "🏞": 0
       }
+    },
+    priority: {
+      type: Number,
+      required: true,
+      default: 0
     }
   },
   { timestamps: true }
