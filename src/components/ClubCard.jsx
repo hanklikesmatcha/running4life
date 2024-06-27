@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import { FaInstagram, FaLink } from "react-icons/fa"; // Import Instagram and link icons
+import { FaInstagram, FaLink } from "react-icons/fa";
 import EmojiCounter from "./EmojiCounter.jsx";
 
 const placeholderImage = "/examples/pink-frame.png";
@@ -14,7 +14,9 @@ const ClubCard = ({ club, handleReaction }) => {
     <div className="hover:bg-primary-focus card w-full max-w-4xl bg-base-100 shadow-xl transition-colors duration-300">
       <div className="card-body p-6">
         <div className="flex items-center justify-between">
-          <h2 className="card-title text-secondary-content">{club.title}</h2>
+          <h2 className="card-title relative inline-block text-secondary-content">
+            <span className="shine-text animate-shine">{club.title}</span>
+          </h2>
           <a
             href={club.instagram}
             className="text-2xl text-gray-800 hover:text-gray-900 lg:text-4xl"
@@ -51,7 +53,7 @@ const ClubCard = ({ club, handleReaction }) => {
           </div>
         </div>
         <div className="relative mt-2 flex flex-wrap justify-around gap-2 pt-10">
-          <div className="absolute left-0 right-0 top-0 flex justify-center text-base font-normal text-zinc-950">
+          <div className="animate-rainbow absolute left-0 right-0 top-0 flex justify-center text-base font-semibold text-zinc-950">
             Vibe
           </div>
           {Object.entries(club.reactions).map(([emoji, count]) => (
@@ -68,8 +70,7 @@ const ClubCard = ({ club, handleReaction }) => {
             {club.photos.map((photo, index) => (
               <div
                 key={index}
-                className="relative w-full overflow-hidden rounded-lg pb-9by16"
-              >
+                className="pb-9by16 relative w-full overflow-hidden rounded-lg">
                 <Image
                   src={photo.url || placeholderImage}
                   alt={`Club photo ${index + 1}`}

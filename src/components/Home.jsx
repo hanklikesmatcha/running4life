@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import FingerprintJS from "@fingerprintjs/fingerprintjs";
 import Image from "next/image";
-
-import { useQueryClient } from "@tanstack/react-query";
 import ClubCard from "@/components/ClubCard";
 import FeedbackButton from "@/components/FeedbackButton";
 import Modal from "@/components/Modal";
@@ -53,7 +51,7 @@ const Home = () => {
     if (notification) {
       const timer = setTimeout(() => {
         setNotification("");
-      }, 3000); // Auto-hide notification after 3 seconds
+      }, 2400); // Auto-hide notification after 2.4 seconds
 
       return () => clearTimeout(timer);
     }
@@ -79,16 +77,16 @@ const Home = () => {
         type={notificationType}
         onClose={() => setNotification("")}
       />
-      <div>
+      <div className="mt-[-60px] mb-[-20px]"> {/* Reduced bottom margin */}
         <Image
           src="/logo.png"
           alt="Running Club"
-          width={400}
-          height={400}
-          className="m-0 p-0"
+          width={300} // Default size for mobile
+          height={300} // Default size for mobile
+          className="block mx-auto sm:w-[400px] sm:h-[400px]" // Larger size for small screens and up
         />
       </div>
-      <div className="flex w-full flex-col items-center gap-6 px-8 pb-10 md:px-0">
+      <div className="flex w-full flex-col items-center gap-6 px-8 pb-10 md:px-0 mt-[-40px]">
         {clubs?.map((club, index) => (
           <ClubCard
             key={index}

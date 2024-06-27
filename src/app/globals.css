@@ -32,6 +32,17 @@ body {
   }
 }
 
+/* Animation for club title */
+.shine-text {
+  background: linear-gradient(90deg, #f3ec78, #af4261, #f3ec78);
+  background-size: 200%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  display: inline-block;
+  position: relative;
+}
+
 /* Animation for EmojiCounter */
 @keyframes bounce {
   0%,
