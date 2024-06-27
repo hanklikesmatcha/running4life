@@ -17,7 +17,7 @@ export default function RootLayout({ children }) {
         <meta name="description" content={metadata.description} />
         <meta property="og:title" content={metadata.title} />
         <meta property="og:description" content={metadata.description} />
-        <meta property="og:image" content="/og-image.jpg" />
+        <meta property="og:image" content="/ms-icon-144x144.png" />
         <meta property="og:url" content="https://running4.life" />
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary_large_image" />
