@@ -82,13 +82,13 @@ class Document extends Document {
           {/* Open Graph Meta Tags */}
           <meta property="og:title" content="running4.life" />
           <meta property="og:description" content="We run for life." />
-          <meta property="og:image" content="/path/to/your-image.jpg" />
+          <meta property="og:image" content="/ms-icon-144x144.png" />
           <meta property="og:url" content="https://your-website-url.com" />
           <meta property="og:type" content="website" />
           <meta name="twitter:card" content="summary_large_image" />
           <meta name="twitter:title" content="running4.life" />
           <meta name="twitter:description" content="We run for life." />
-          <meta name="twitter:image" content="/path/to/your-image.jpg" />
+          <meta name="twitter:image" content="/ms-icon-144x144.png" />
         </Head>
         <body>
           <Main />
