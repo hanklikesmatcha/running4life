@@ -3,6 +3,20 @@ import dbConnect from "@/utils/dbConnect";
 
 export const revalidate = 0;
 
+const parseTime = (timeStr) => {
+  const [day, time] = timeStr.split(",").map((str) => str.trim());
+  const [hourMinute, period] = time.split(" ");
+  let [hour, minute] = hourMinute.split(":").map(Number);
+
+  if (period === "PM" && hour !== 12) {
+    hour += 12;
+  } else if (period === "AM" && hour === 12) {
+    hour = 0;
+  }
+
+  return { day, hour, minute };
+};
+
 const getWeekdayOrder = (today) => {
   const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   const index = days.indexOf(today);
@@ -10,8 +24,12 @@ const getWeekdayOrder = (today) => {
 };
 
 const sortByWeekdays = (clubs) => {
-  const today = new Date().toLocaleString("en-NZ", { weekday: "short" });
+  const today = new Intl.DateTimeFormat("en-NZ", {
+    weekday: "short",
+    timeZone: "Pacific/Auckland"
+  }).format(new Date());
   const weekdayOrder = getWeekdayOrder(today);
+
   return clubs.sort((a, b) => {
     const aWeekday = a.time.split(",")[0].trim();
     const bWeekday = b.time.split(",")[0].trim();
@@ -19,7 +37,18 @@ const sortByWeekdays = (clubs) => {
     // Move '-' entries to the bottom
     if (aWeekday === "-") return 1;
     if (bWeekday === "-") return -1;
-    return weekdayOrder.indexOf(aWeekday) - weekdayOrder.indexOf(bWeekday);
+
+    const weekdayComparison =
+      weekdayOrder.indexOf(aWeekday) - weekdayOrder.indexOf(bWeekday);
+    if (weekdayComparison !== 0) {
+      return weekdayComparison;
+    }
+
+    // If weekdays are the same, sort by time
+    const aTime = parseTime(a.time);
+    const bTime = parseTime(b.time);
+
+    return aTime.hour - bTime.hour || aTime.minute - bTime.minute;
   });
 };
 
