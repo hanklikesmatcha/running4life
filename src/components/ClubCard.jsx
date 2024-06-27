@@ -1,6 +1,8 @@
-
 import React from "react";
+import Image from "next/image";
 import EmojiCounter from "./EmojiCounter.jsx";
+
+const placeholderImage = "/examples/pink-frame.png";
 
 const ClubCard = ({ club, handleReaction }) => {
   return (
@@ -41,7 +43,7 @@ const ClubCard = ({ club, handleReaction }) => {
         </div>
         <div className="relative mt-2 flex flex-wrap justify-around gap-2 pt-10">
           <div className="md:sm absolute left-0 top-0 text-base font-bold text-cyan-500">
-            Vibe 
+            Vibe
           </div>
           {Object.entries(club.reactions).map(([emoji, count]) => (
             <EmojiCounter
@@ -52,6 +54,23 @@ const ClubCard = ({ club, handleReaction }) => {
             />
           ))}
         </div>
+        {club.photos && club.photos.length > 0 && (
+          <div className="mt-4 grid grid-cols-3 gap-2">
+            {club.photos.map((photo, index) => (
+              <div
+                key={index}
+                className="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-200">
+                <Image
+                  src={photo.url || placeholderImage}
+                  alt={`Club photo ${index + 1}`}
+                  width={240}
+                  height={320}
+                  className="h-full w-full object-cover"
+                />
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

@@ -1,12 +1,27 @@
 import Club from "@/models/club";
+import Photo from "@/models/photo";
 import dbConnect from "@/utils/dbConnect";
 
 export const revalidate = 0;
+
 export async function GET(request) {
   try {
     await dbConnect();
-    // Fetch the updated clubs
-    const clubs = await Club.find().sort({ priority: -1 }).lean();
+
+    // Aggregate clubs and their associated photos
+    const clubs = await Club.aggregate([
+      {
+        $lookup: {
+          from: "photos", // Collection name in MongoDB
+          localField: "_id",
+          foreignField: "club",
+          as: "photos"
+        }
+      },
+      {
+        $sort: { priority: -1 }
+      }
+    ]);
 
     if (clubs.length === 0) {
       console.log("No clubs found after update");
