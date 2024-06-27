@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-
 import Modal from "@/components/Modal";
 
 const FeedbackButton = () => {
@@ -51,8 +50,12 @@ const FeedbackButton = () => {
 
   return (
     <div className="fixed bottom-4 right-4">
-      <button onClick={handleClick} className="btn btn-primary">
-        Feedback
+      <button
+        onClick={handleClick}
+        className="btn btn-primary flex h-auto w-auto items-center justify-center p-1 align-middle text-xs sm:p-2 sm:text-sm md:p-3 md:text-base lg:p-4 lg:text-lg">
+        <span className="text-xs sm:text-sm md:text-base lg:text-lg">
+          Feedback
+        </span>
       </button>
 
       {showForm && (
