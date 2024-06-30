@@ -10,8 +10,12 @@ import PageLoading from "@/components/PageLoading";
 import LoadingIndicator from "@/components/LoadingIndicator";
 import { useClubs } from "@/hooks/useClubs";
 import { useReactionMutation } from "@/hooks/useReactionMutation";
+import { SignIn } from "@/components/SingIn";
+import { SignOut } from "@/components/SignOut";
 
-const Home = () => {
+
+const Home = () => { 
+  const session = undefined;
   const { data: clubs, error, isLoading } = useClubs();
   const [visitorId, setVisitorId] = useState(null);
   const {
@@ -71,6 +75,13 @@ const Home = () => {
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-r from-pink-200 to-purple-400 py-8">
+     <div className="absolute top-0 right-0 p-4">
+        {session ? (
+          <SignOut />
+        ) : (
+          <SignIn />
+        )}
+      </div>
       {mutationIsLoading && <LoadingIndicator />}
       <Notification
         message={notification}

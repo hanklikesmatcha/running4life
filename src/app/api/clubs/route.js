@@ -1,5 +1,5 @@
 import Club from "@/models/club";
-import dbConnect from "@/utils/dbConnect";
+import dbConnect from "@/utils/mongoose";
 
 export const revalidate = 0;
 
