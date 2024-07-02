@@ -24,10 +24,12 @@ const getWeekdayOrder = (today) => {
 };
 
 const sortByWeekdays = (clubs) => {
+  const now = new Date();
   const today = new Intl.DateTimeFormat("en-NZ", {
     weekday: "short",
     timeZone: "Pacific/Auckland"
-  }).format(new Date());
+  }).format(now);
+
   const weekdayOrder = getWeekdayOrder(today);
 
   return clubs.sort((a, b) => {
@@ -38,17 +40,25 @@ const sortByWeekdays = (clubs) => {
     if (aWeekday === "-") return 1;
     if (bWeekday === "-") return -1;
 
-    const weekdayComparison =
-      weekdayOrder.indexOf(aWeekday) - weekdayOrder.indexOf(bWeekday);
-    if (weekdayComparison !== 0) {
-      return weekdayComparison;
-    }
-
-    // If weekdays are the same, sort by time
     const aTime = parseTime(a.time);
     const bTime = parseTime(b.time);
 
-    return aTime.hour - bTime.hour || aTime.minute - bTime.minute;
+    const aDate = new Date(now);
+    aDate.setHours(aTime.hour, aTime.minute, 0, 0);
+    while (aDate.getDay() !== weekdayOrder.indexOf(aWeekday)) {
+      aDate.setDate(aDate.getDate() + 1);
+    }
+
+    const bDate = new Date(now);
+    bDate.setHours(bTime.hour, bTime.minute, 0, 0);
+    while (bDate.getDay() !== weekdayOrder.indexOf(bWeekday)) {
+      bDate.setDate(bDate.getDate() + 1);
+    }
+
+    if (aDate < now && bDate >= now) return 1;
+    if (aDate >= now && bDate < now) return -1;
+
+    return aDate - bDate;
   });
 };
 

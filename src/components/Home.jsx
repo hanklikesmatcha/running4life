@@ -1,17 +1,18 @@
-import React, { useEffect, useState } from "react";
-import FingerprintJS from "@fingerprintjs/fingerprintjs";
-import Image from "next/image";
-import ClubCard from "@/components/ClubCard";
+
 import FeedbackButton from "@/components/FeedbackButton";
+import LoadingIndicator from "@/components/LoadingIndicator";
 import Modal from "@/components/Modal";
 import Notification from "@/components/Notification";
 import ErrorPageComponent from "@/components/PageError";
 import PageLoading from "@/components/PageLoading";
-import LoadingIndicator from "@/components/LoadingIndicator";
-import { useClubs } from "@/hooks/useClubs";
-import { useReactionMutation } from "@/hooks/useReactionMutation";
-import { SignIn } from "@/components/SingIn";
-import { SignOut } from "@/components/SignOut";
+import WorkoutList from "@/components/WorkoutList";
+import {useClubs} from "@/hooks/useClubs";
+import {useReactionMutation} from "@/hooks/useReactionMutation";
+import FingerprintJS from "@fingerprintjs/fingerprintjs";
+import Image from "next/image";
+import {useEffect,useState} from "react";
+import {SignOut} from "./SignOut";
+import {SignIn} from "./SingIn";
 
 
 const Home = () => { 
@@ -29,6 +30,7 @@ const Home = () => {
   const [modalMessage, setModalMessage] = useState("");
   const [notification, setNotification] = useState("");
   const [notificationType, setNotificationType] = useState("error");
+  const [activeTab, setActiveTab] = useState("Runs");
 
   useEffect(() => {
     const getFingerprint = async () => {
@@ -74,8 +76,8 @@ const Home = () => {
   };
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-r from-pink-200 to-purple-400 py-8">
-     <div className="absolute top-0 right-0 p-4">
+    <div className="relative flex min-h-screen flex-col items-center justify-center bg-gradient-to-r from-pink-200 to-purple-400 py-8">
+         <div className="absolute top-0 right-0 p-4">
         {session ? (
           <SignOut />
         ) : (
@@ -88,23 +90,22 @@ const Home = () => {
         type={notificationType}
         onClose={() => setNotification("")}
       />
-      <div className="mt-[-60px] mb-[-20px]"> {/* Reduced bottom margin */}
+      <div className="absolute top-10 mt-[-40px]">
         <Image
           src="/logo.png"
           alt="Running Club"
           width={300} // Default size for mobile
           height={300} // Default size for mobile
-          className="block mx-auto sm:w-[400px] sm:h-[400px]" // Larger size for small screens and up
+          className="mx-auto block sm:h-[400px] sm:w-[400px]" // Larger size for small screens and up
         />
       </div>
-      <div className="flex w-full flex-col items-center gap-6 px-8 pb-10 md:px-0 mt-[-40px]">
-        {clubs?.map((club, index) => (
-          <ClubCard
-            key={index}
-            club={club}
-            handleReaction={handleReactionClick}
-          />
-        ))}
+      <div className="mt-[300px] flex w-full flex-col items-center">
+        <WorkoutList
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          clubs={clubs}
+          handleReactionClick={handleReactionClick}
+        />
       </div>
       <FeedbackButton />
       <Modal

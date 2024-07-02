@@ -12,19 +12,31 @@ const EmojiCounter = ({ emoji, count, onClick }) => {
     setIsAnimating(false);
   };
 
+  const emojiLabels = {
+    "💛": "Love",
+    "🥵": "Intense",
+    "👫": "Friendly"
+  };
+
+  const label = emojiLabels[emoji] || "Unknown";
+
   return (
-    <div className="flex items-center justify-center rounded-xl border-0 border-purple-300 p-1 shadow-md ring-2 ring-pink-200 ring-offset-2">
-      <button
-        onClick={handleClick}
-        className={`-m-2 p-2 text-base transition-transform sm:text-lg md:text-xl ${isAnimating ? "emoji-bounce" : ""}`}
-        disabled={isAnimating}>
-        {emoji}
-      </button>
+    <button
+      onClick={handleClick}
+      className={`flex items-center justify-center rounded-xl border-0 border-purple-300 p-1 shadow-md ring-2 ring-pink-200 ring-offset-2 transition-transform sm:text-lg md:text-xl ${isAnimating ? "emoji-bounce" : ""}`}
+      disabled={isAnimating}>
       <span
-        className={`ml-1 text-xs text-black sm:ml-2 sm:text-sm md:text-base ${isAnimating ? "emoji-pulse" : ""}`}>
+        className={`mr-1 text-xs text-black sm:ml-2 sm:text-sm md:text-base ${isAnimating ? "emoji-pulse" : ""}`}>
         {count}
       </span>
-    </div>
+      <span
+        className={`-m-2 p-2 text-base ${isAnimating ? "emoji-bounce" : ""}`}>
+        {emoji}
+      </span>
+      <span className="ml-1 text-xs text-black sm:ml-2 sm:text-sm md:text-base">
+        {label}
+      </span>
+    </button>
   );
 };
 
