@@ -1,4 +1,3 @@
-
 import FeedbackButton from "@/components/FeedbackButton";
 import LoadingIndicator from "@/components/LoadingIndicator";
 import Modal from "@/components/Modal";
@@ -14,9 +13,8 @@ import {useEffect,useState} from "react";
 import {SignOut} from "./SignOut";
 import {SignIn} from "./SingIn";
 
-
-const Home = () => { 
-  const session = undefined;
+const Home = () => {
+  const session = null
   const { data: clubs, error, isLoading } = useClubs();
   const [visitorId, setVisitorId] = useState(null);
   const {
@@ -77,12 +75,8 @@ const Home = () => {
 
   return (
     <div className="relative flex min-h-screen flex-col items-center justify-center bg-gradient-to-r from-pink-200 to-purple-400 py-8">
-         <div className="absolute top-0 right-0 p-4">
-        {session ? (
-          <SignOut />
-        ) : (
-          <SignIn />
-        )}
+      <div className="absolute right-0 top-0 p-4">
+        {session ? <SignOut /> : <SignIn />}
       </div>
       {mutationIsLoading && <LoadingIndicator />}
       <Notification
