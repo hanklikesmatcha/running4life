@@ -21,33 +21,5 @@
         "extensions": [".js", ".jsx", ".ts", ".tsx"]
       }
     }
-  },
-  "rules": {
-    "import/no-unresolved": "error",
-    "import/order": [
-      "error",
-      {
-        "groups": [["builtin", "external", "internal"]],
-        "pathGroups": [
-          {
-            "pattern": "@/**",
-            "group": "internal",
-            "position": "after"
-          }
-        ],
-        "newlines-between": "ignore"
-      }
-    ],
-    "react/react-in-jsx-scope": "off",
-    "react/jsx-props-no-spreading": "off",
-    "no-undef": "error",
-    "no-unused-vars": [
-      "warn",
-      {
-        "vars": "all",
-        "args": "none",
-        "ignoreRestSiblings": false
-      }
-    ]
   }
 }
