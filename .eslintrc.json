@@ -23,31 +23,11 @@
     }
   },
   "rules": {
-    "import/no-unresolved": "error",
-    "import/order": [
-      "error",
-      {
-        "groups": [["builtin", "external", "internal"]],
-        "pathGroups": [
-          {
-            "pattern": "@/**",
-            "group": "internal",
-            "position": "after"
-          }
-        ],
-        "newlines-between": "ignore"
-      }
-    ],
-    "react/react-in-jsx-scope": "off",
-    "react/jsx-props-no-spreading": "off",
-    "no-undef": "error",
-    "no-unused-vars": [
-      "warn",
-      {
-        "vars": "all",
-        "args": "none",
-        "ignoreRestSiblings": false
-      }
-    ]
+    "import/no-unresolved": "error", // Ensure import errors are caught
+    "import/named": "error", // Ensure named imports exist in the imported module
+    "import/default": "error", // Ensure a default export exists in the imported module
+    "import/namespace": "error", // Ensure imported namespaces contain dereferenced properties
+    "import/no-extraneous-dependencies": "error", // Ensure dependencies are correctly listed in package.json
+    "import/no-duplicates": "error" // Report repeated import of the same module in multiple places
   }
 }
