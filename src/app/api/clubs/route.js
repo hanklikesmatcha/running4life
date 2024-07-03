@@ -1,5 +1,6 @@
 import Club from "@/models/club";
 import dbConnect from "@/utils/mongoose";
+import AWS from "aws-sdk";
 
 export const revalidate = 0;
 
@@ -62,7 +63,23 @@ const sortByWeekdays = (clubs) => {
   });
 };
 
-export async function GET(request) {
+const s3 = new AWS.S3({
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  region: process.env.AWS_REGION
+});
+
+const getSignedUrl = (key) => {
+  const params = {
+    Bucket: "running4life-public",
+    Key: key,
+    Expires: 60 * 60
+  };
+
+  return s3.getSignedUrl("getObject", params);
+};
+
+export async function GET() {
   try {
     await dbConnect();
 
@@ -87,7 +104,15 @@ export async function GET(request) {
     // Sort clubs by weekdays
     const sortedClubs = sortByWeekdays(clubs);
 
-    return new Response(JSON.stringify(sortedClubs), {
+    const clubsWithSignedUrls = sortedClubs.map((club) => {
+      club.photos = club.photos.map((photo) => {
+        photo.url = getSignedUrl(photo.url); // Assuming 'key' is the field that stores the S3 key
+        return photo;
+      });
+      return club;
+    });
+
+    return new Response(JSON.stringify(clubsWithSignedUrls), {
       headers: { "Content-Type": "application/json" }
     });
   } catch (error) {
