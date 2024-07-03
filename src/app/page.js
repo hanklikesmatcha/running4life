@@ -1,14 +1,8 @@
-"use client";
+import { auth } from "@/auth";
+import ClientHome from "@/components/QueryClientHome";
 
-import Home from "@/components/Home";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+export default async function Page() {
+  const session = await auth();
 
-const queryClient = new QueryClient();
-
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <Home />
-  </QueryClientProvider>
-);
-
-export default App;
+  return <ClientHome session={session} />;
+}

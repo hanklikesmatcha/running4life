@@ -1,7 +1,8 @@
 import { Inter } from "next/font/google";
-import Head from "next/head";
 import "./globals.css";
 import { CSPostHogProvider } from "./providers";
+import { SessionProvider } from "next-auth/react";
+import { auth } from "@/auth";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,12 +19,16 @@ export const metadata = {
   }
 };
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+  const session = await auth();
+
   return (
     <html lang="en">
-      <CSPostHogProvider>
-        <body className={inter.className}>{children}</body>
-      </CSPostHogProvider>
+      <SessionProvider session={session}>
+        <CSPostHogProvider>
+          <body className={inter.className}>{children}</body>
+        </CSPostHogProvider>
+      </SessionProvider>
     </html>
   );
 }

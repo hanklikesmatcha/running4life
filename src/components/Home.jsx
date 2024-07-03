@@ -5,16 +5,16 @@ import Notification from "@/components/Notification";
 import ErrorPageComponent from "@/components/PageError";
 import PageLoading from "@/components/PageLoading";
 import WorkoutList from "@/components/WorkoutList";
-import {useClubs} from "@/hooks/useClubs";
-import {useReactionMutation} from "@/hooks/useReactionMutation";
+import { useClubs } from "@/hooks/useClubs";
+import { useReactionMutation } from "@/hooks/useReactionMutation";
 import FingerprintJS from "@fingerprintjs/fingerprintjs";
 import Image from "next/image";
-import {useEffect,useState} from "react";
-import {SignOut} from "./SignOut";
-import {SignIn} from "./SingIn";
+import { useEffect, useState } from "react";
+import { SignOut } from "./SignOut";
+import { SignIn } from "./SingIn";
 
-const Home = () => {
-  const session = null
+export default function Home({ session }) {
+  console.log(session);
   const { data: clubs, error, isLoading } = useClubs();
   const [visitorId, setVisitorId] = useState(null);
   const {
@@ -86,6 +86,7 @@ const Home = () => {
       />
       <div className="absolute top-10 mt-[-40px]">
         <Image
+          priority={true}
           src="/logo.png"
           alt="Running Club"
           width={300} // Default size for mobile
@@ -109,6 +110,4 @@ const Home = () => {
       />
     </div>
   );
-};
-
-export default Home;
+}

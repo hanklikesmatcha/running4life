@@ -15,20 +15,24 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     async jwt({ token, user }) {
       const client = await clientPromise;
       const db = client.db("your-database-name");
-      const dbUser = await db.collection("users").findOne({ _id: token.id });
-      if (!dbUser) {
+
+      // If there is a user object, it means we are logging in for the first time
+      if (user) {
         token.id = user.id;
-        return token;
+      } else {
+        // Otherwise, try to fetch the user from the database using the token id
+        const dbUser = await db.collection("users").findOne({ _id: token.id });
+        if (dbUser) {
+          token.id = dbUser._id;
+          token.name = dbUser.name;
+          token.email = dbUser.email;
+          token.image = dbUser.image;
+        }
       }
 
-      return {
-        id: dbUser._id,
-        name: dbUser.name as string,
-        email: dbUser.email,
-        image: dbUser.image
-      };
+      return token;
     },
-    async session({ session, token, user }) {
+    async session({ session, token }) {
       if (token) {
         session.user.id = token.id;
         session.user.name = token.name;
