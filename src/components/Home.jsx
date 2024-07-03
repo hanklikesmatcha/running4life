@@ -14,7 +14,6 @@ import { SignOut } from "./SignOut";
 import { SignIn } from "./SingIn";
 
 export default function Home({ session }) {
-  console.log(session);
   const { data: clubs, error, isLoading } = useClubs();
   const [visitorId, setVisitorId] = useState(null);
   const {

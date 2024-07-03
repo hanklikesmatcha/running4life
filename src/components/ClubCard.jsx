@@ -1,4 +1,5 @@
 import React from "react";
+import { useRouter } from 'next/navigation';
 import Image from "next/image";
 import { FaInstagram, FaLink } from "react-icons/fa";
 import EmojiCounter from "./EmojiCounter.jsx";
@@ -10,18 +11,33 @@ const isInstagramUrl = (url) => {
 };
 
 const ClubCard = ({ club, handleReaction }) => {
+  const router = useRouter();
+
+  const handleButtonClick = () => {
+    router.push(`/clubs/${club._id}/huddle`);
+  };
+
   return (
     <div className="hover:bg-primary-focus card w-full max-w-4xl bg-base-100 shadow-xl transition-colors duration-300">
       <div className="card-body p-6">
         <div className="flex items-center justify-between">
-          <h2 className="card-title relative inline-block text-secondary-content">
-            <span className="shine-text animate-shine">{club.title}</span>
-          </h2>
+          <div className="flex items-center space-x-4">
+            <h2 className="card-title relative inline-block text-secondary-content">
+              <span className="shine-text animate-shine">{club.title}</span>
+            </h2>
+            <button
+              onClick={handleButtonClick}
+              className="btn btn-sm btn-primary ml-2"
+            >
+              Join the Fun Club!
+            </button>
+          </div>
           <a
             href={club.instagram}
             className="text-2xl text-gray-800 hover:text-gray-900 lg:text-4xl"
             target="_blank"
-            rel="noopener noreferrer">
+            rel="noopener noreferrer"
+          >
             {isInstagramUrl(club.instagram) ? (
               <FaInstagram className="text-pink-600" />
             ) : (
