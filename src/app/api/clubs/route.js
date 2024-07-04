@@ -5,6 +5,8 @@ import AWS from "aws-sdk";
 
 const parseTime = (timeStr) => {
   const [day, time] = timeStr.split(",").map((str) => str.trim());
+  if (day === "-") return { day: "-", hour: 0, minute: 0 }; // Handle missing time
+
   const [hourMinute, period] = time.split(" ");
   let [hour, minute] = hourMinute.split(":").map(Number);
 
@@ -33,25 +35,29 @@ const sortByWeekdays = (clubs) => {
   const weekdayOrder = getWeekdayOrder(today);
 
   return clubs.sort((a, b) => {
-    const aWeekday = a.time.split(",")[0].trim();
-    const bWeekday = b.time.split(",")[0].trim();
+    const aTimeParsed = parseTime(a.time);
+    const bTimeParsed = parseTime(b.time);
 
     // Move '-' entries to the bottom
-    if (aWeekday === "-") return 1;
-    if (bWeekday === "-") return -1;
+    if (aTimeParsed.day === "-") return 1;
+    if (bTimeParsed.day === "-") return -1;
 
-    const aTime = parseTime(a.time);
-    const bTime = parseTime(b.time);
+    const aDayIndex = weekdayOrder.indexOf(aTimeParsed.day);
+    const bDayIndex = weekdayOrder.indexOf(bTimeParsed.day);
+
+    if (aDayIndex !== bDayIndex) {
+      return aDayIndex - bDayIndex;
+    }
 
     const aDate = new Date(now);
-    aDate.setHours(aTime.hour, aTime.minute, 0, 0);
-    while (aDate.getDay() !== weekdayOrder.indexOf(aWeekday)) {
+    aDate.setHours(aTimeParsed.hour, aTimeParsed.minute, 0, 0);
+    while (aDate.getDay() !== weekdayOrder.indexOf(aTimeParsed.day)) {
       aDate.setDate(aDate.getDate() + 1);
     }
 
     const bDate = new Date(now);
-    bDate.setHours(bTime.hour, bTime.minute, 0, 0);
-    while (bDate.getDay() !== weekdayOrder.indexOf(bWeekday)) {
+    bDate.setHours(bTimeParsed.hour, bTimeParsed.minute, 0, 0);
+    while (bDate.getDay() !== weekdayOrder.indexOf(bTimeParsed.day)) {
       bDate.setDate(bDate.getDate() + 1);
     }
 
@@ -100,6 +106,7 @@ export async function GET() {
     if (clubs.length === 0) {
       console.log("No clubs found after update");
     }
+
     // Sort clubs by weekdays
     const sortedClubs = sortByWeekdays(clubs);
 
