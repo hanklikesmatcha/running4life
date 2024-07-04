@@ -43,6 +43,27 @@ body {
   position: relative;
 }
 
+
+/* Animation for huddle title */
+.shine-text-for-huddle-title {
+  background: linear-gradient(90deg, #ffffff, #000000, #ffffff); /* Adjusted colors for better contrast */
+  background-size: 200%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  display: inline-block;
+  position: relative;
+}
+
+@keyframes shine {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
 /* Animation for EmojiCounter */
 @keyframes bounce {
   0%,

@@ -1,8 +1,10 @@
-import React from "react";
-import { useRouter } from 'next/navigation';
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { FaInstagram, FaLink } from "react-icons/fa";
-import EmojiCounter from "./EmojiCounter.jsx";
+import EmojiCounter from "./EmojiCounter";
+import Notification from "./Notification";
+import { useSession } from "next-auth/react";
 
 const placeholderImage = "/examples/pink-frame.png";
 
@@ -12,38 +14,50 @@ const isInstagramUrl = (url) => {
 
 const ClubCard = ({ club, handleReaction }) => {
   const router = useRouter();
+  const { data: session } = useSession();
+
+  const [notification, setNotification] = useState("");
+  const [notificationType, setNotificationType] = useState("error");
 
   const handleButtonClick = () => {
+    if (!session) {
+      setNotification("Please sign in to join the team huddle.");
+      setNotificationType("error");
+      return;
+    }
     router.push(`/clubs/${club._id}/huddle`);
   };
 
   return (
     <div className="hover:bg-primary-focus card w-full max-w-4xl bg-base-100 shadow-xl transition-colors duration-300">
+      <Notification
+        message={notification}
+        type={notificationType}
+        onClose={() => setNotification("")}
+      />
       <div className="card-body p-6">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-4">
+        <div className="flex flex-col space-y-2 md:flex-row md:items-center md:justify-between md:space-y-0">
+          <div className="flex items-center justify-between">
             <h2 className="card-title relative inline-block text-secondary-content">
               <span className="shine-text animate-shine">{club.title}</span>
             </h2>
-            <button
-              onClick={handleButtonClick}
-              className="btn btn-sm btn-primary ml-2"
-            >
-              Join the Fun Club!
-            </button>
+            <a
+              href={club.instagram}
+              className="text-2xl text-gray-800 hover:text-gray-900 lg:text-4xl"
+              target="_blank"
+              rel="noopener noreferrer">
+              {isInstagramUrl(club.instagram) ? (
+                <FaInstagram className="mx-2 text-pink-500" />
+              ) : (
+                <FaLink className="mx-2 text-purple-400" />
+              )}
+            </a>
           </div>
-          <a
-            href={club.instagram}
-            className="text-2xl text-gray-800 hover:text-gray-900 lg:text-4xl"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {isInstagramUrl(club.instagram) ? (
-              <FaInstagram className="text-pink-600" />
-            ) : (
-              <FaLink className="text-blue-600" />
-            )}
-          </a>
+          <button
+            onClick={handleButtonClick}
+            className="btn btn-neutral btn-xs mt-2 border-4 border-fuchsia-800 text-rose-300 sm:btn-sm md:mt-0">
+            Team Huddle
+          </button>
         </div>
         <p className="text-accent-content">{club.description}</p>
         <div className="mt-2 border-t pt-2">
@@ -69,7 +83,7 @@ const ClubCard = ({ club, handleReaction }) => {
           </div>
         </div>
         <div className="relative mt-2 flex flex-wrap justify-around gap-2 pt-10">
-          <div className="animate-rainbow absolute left-0 right-0 top-0 flex justify-center text-base font-semibold text-zinc-950">
+          <div className="absolute left-0 right-0 top-0 flex animate-rainbow justify-center text-base font-semibold text-zinc-950">
             Vibe
           </div>
           {Object.entries(club.reactions).map(([emoji, count]) => (
@@ -86,7 +100,7 @@ const ClubCard = ({ club, handleReaction }) => {
             {club.photos.map((photo, index) => (
               <div
                 key={index}
-                className="pb-9by16 relative w-full overflow-hidden rounded-lg">
+                className="relative w-full overflow-hidden rounded-lg pb-9by16">
                 <Image
                   src={photo.url || placeholderImage}
                   alt={`Club photo ${index + 1}`}
