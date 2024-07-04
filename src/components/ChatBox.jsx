@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useChannel } from "ably/react";
+import { useChannel, useAbly } from "ably/react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { FaArrowLeft } from "react-icons/fa";
@@ -7,6 +7,7 @@ import { FaArrowLeft } from "react-icons/fa";
 export default function ChatBox({ roomId }) {
   const { data: session } = useSession();
   const router = useRouter();
+  const ably = useAbly(); // Use the Ably hook to get the client
 
   const [clubTitle, setClubTitle] = useState("");
 
@@ -21,9 +22,8 @@ export default function ChatBox({ roomId }) {
   const [receivedMessages, setMessages] = useState([]);
   const messageTextIsEmpty = messageText.trim().length === 0;
 
-  const { channel, ably } = useChannel(roomId, (message) => {
-    const history = receivedMessages.slice(-199);
-    setMessages([...history, message]);
+  const { channel } = useChannel(roomId, (message) => {
+    setMessages((prevMessages) => [...prevMessages, message]);
   });
 
   const sendChatMessage = (messageText) => {
@@ -61,7 +61,7 @@ export default function ChatBox({ roomId }) {
         className={`my-1 flex ${author === "me" ? "justify-end" : "justify-start"}`}>
         {author === "other" && (
           <img
-            src={message.data.userImage}
+            src={userImage}
             alt={message.data.userName}
             className="mr-2 h-8 w-8 rounded-full"
           />
@@ -81,7 +81,7 @@ export default function ChatBox({ roomId }) {
         </div>
         {author === "me" && (
           <img
-            src={message.data.userImage}
+            src={userImage}
             alt={message.data.userName}
             className="ml-2 h-8 w-8 rounded-full"
           />
@@ -95,7 +95,6 @@ export default function ChatBox({ roomId }) {
   }, [receivedMessages]);
 
   useEffect(() => {
-    // Fetch club details based on the roomId
     const fetchClubDetails = async () => {
       try {
         const response = await fetch(`/api/clubs/${roomId}`);
@@ -106,7 +105,30 @@ export default function ChatBox({ roomId }) {
       }
     };
 
+    const fetchPreviousMessages = async () => {
+      try {
+        const channel = ably.channels.get(roomId);
+        const messagesPage = await channel.history({
+          limit: 10,
+          direction: "backwards"
+        });
+        const historicalMessages = messagesPage.items.map((message) => ({
+          ...message,
+          data: {
+            text: message.data.text,
+            userId: message.data.userId,
+            userName: message.data.userName,
+            userImage: message.data.userImage || "default-avatar.png"
+          }
+        }));
+        setMessages(historicalMessages.reverse());
+      } catch (error) {
+        console.error("Failed to fetch previous messages:", error);
+      }
+    };
+
     fetchClubDetails();
+    fetchPreviousMessages();
   }, [roomId]);
 
   return (
