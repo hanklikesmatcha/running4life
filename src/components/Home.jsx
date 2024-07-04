@@ -74,7 +74,7 @@ export default function Home({ session }) {
 
   return (
     <div className="relative flex min-h-screen flex-col items-center justify-center bg-gradient-to-r from-pink-200 to-purple-400 py-8">
-      <div className="absolute right-0 top-0 p-4">
+      <div className="absolute right-0 top-0 z-10 p-4">
         {session ? <SignOut /> : <SignIn />}
       </div>
       {mutationIsLoading && <LoadingIndicator />}
