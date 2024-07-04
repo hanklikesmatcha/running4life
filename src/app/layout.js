@@ -8,6 +8,7 @@ import { auth } from "@/auth";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
+  metadataBase: new URL("https://running4.life"),
   title: "running4.life",
   description: "We run for life.",
   openGraph: {

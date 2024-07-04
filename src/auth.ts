@@ -9,7 +9,7 @@ import clientPromise from "./utils/mongodb";
 
 const { NODE_ENV } = process.env;
 
-const DB_URL =
+const DB_NAME =
   NODE_ENV === "development" ? "running4life" : "running4life-test";
 
 const providers = [Google];
@@ -27,10 +27,16 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
     async jwt({ token, user, account }) {
       const client = await clientPromise;
-      const db = client.db(DB_URL);
+      const db = client.db(DB_NAME);
+      let dbUser;
+      if (token.id) {
+        dbUser = await db.collection("users").findOne({ _id: token.id });
+      }
 
-      const dbUser = await db.collection("users").findOne({ _id: token.id });
-      if (dbUser) {
+      if (!dbUser && user) {
+        token.id = user.id;
+        token.image = user.image;
+      } else if (dbUser) {
         token.id = dbUser._id;
         token.name = dbUser.name;
         token.email = dbUser.email;
