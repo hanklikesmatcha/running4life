@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 // @ts-nocheck
 import React, { useEffect, useState, useRef } from "react";
 import { useChannel, useAbly } from "ably/react";
@@ -54,7 +55,7 @@ export default function ChatBox({ roomId }) {
 
   const messages = receivedMessages.map((message, index) => {
     const author = message.data.userId === session.user.id ? "me" : "other";
-    const userImage = message.data.userImage || "default-avatar.png"; // Fallback to a default image if userImage is not available
+    const userImage = message.data.userImage || "/default-avatar.svg"; // Fallback to a default image if userImage is not available
     return (
       <div
         key={index}
@@ -118,7 +119,7 @@ export default function ChatBox({ roomId }) {
             text: message.data.text,
             userId: message.data.userId,
             userName: message.data.userName,
-            userImage: message.data.userImage || "default-avatar.png"
+            userImage: message.data.userImage
           }
         }));
         setMessages(historicalMessages.reverse());
@@ -129,7 +130,7 @@ export default function ChatBox({ roomId }) {
 
     fetchClubDetails();
     fetchPreviousMessages();
-  }, [roomId, ably.channels]);
+  }, [roomId]);
 
   if (!session) {
     router.push("/");
