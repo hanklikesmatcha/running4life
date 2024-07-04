@@ -130,7 +130,7 @@ export default function ChatBox({ roomId }) {
 
     fetchClubDetails();
     fetchPreviousMessages();
-  }, [roomId]);
+  }, [ably.channels, roomId]);
 
   if (!session) {
     router.push("/");
