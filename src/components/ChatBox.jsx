@@ -25,7 +25,6 @@ export default function ChatBox({ roomId }) {
   const { channel } = useChannel(roomId, (message) => {
     setMessages((prevMessages) => [...prevMessages, message]);
   });
-  console.log("channel");
   const sendChatMessage = (messageText) => {
     const message = {
       text: messageText,
