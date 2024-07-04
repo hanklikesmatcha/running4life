@@ -1,5 +1,5 @@
 import { LRUCache } from "lru-cache";
-import dbConnect from "@/utils/dbConnect";
+import dbConnect from "../../../utils/mongoose";
 import Reaction from "@/models/reaction";
 import Club from "@/models/club";
 
