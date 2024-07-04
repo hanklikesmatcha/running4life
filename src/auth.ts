@@ -29,31 +29,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       const client = await clientPromise;
       const db = client.db(DB_URL);
 
-      // Link accounts if the email matches
-      if (account && user) {
-        const dbUser = await db
-          .collection("users")
-          .findOne({ email: user.email });
-        if (dbUser) {
-          token.id = dbUser._id;
-          token.name = dbUser.name;
-          token.email = dbUser.email;
-          token.image = dbUser.image;
-        } else {
-          token.id = user.id;
-          token.name = user.name;
-          token.email = user.email;
-          token.image = user.image;
-        }
-      } else if (token.id) {
-        // Fetch user data if token exists
-        const dbUser = await db.collection("users").findOne({ _id: token.id });
-        if (dbUser) {
-          token.id = dbUser._id;
-          token.name = dbUser.name;
-          token.email = dbUser.email;
-          token.image = dbUser.image;
-        }
+      const dbUser = await db.collection("users").findOne({ _id: token.id });
+      if (dbUser) {
+        token.id = dbUser._id;
+        token.name = dbUser.name;
+        token.email = dbUser.email;
+        token.image = dbUser.image;
       }
       return token;
     },
