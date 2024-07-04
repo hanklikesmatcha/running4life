@@ -1,8 +1,10 @@
+// @ts-nocheck
 import React, { useEffect, useState, useRef } from "react";
 import { useChannel, useAbly } from "ably/react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { FaArrowLeft } from "react-icons/fa";
+import Image from "next/image";
 
 export default function ChatBox({ roomId }) {
   const { data: session } = useSession();
@@ -10,14 +12,8 @@ export default function ChatBox({ roomId }) {
   const ably = useAbly(); // Use the Ably hook to get the client
 
   const [clubTitle, setClubTitle] = useState("");
-
-  if (!session) {
-    return router.push("/");
-  }
-
   const inputBoxRef = useRef(null);
   const messageEndRef = useRef(null);
-
   const [messageText, setMessageText] = useState("");
   const [receivedMessages, setMessages] = useState([]);
   const messageTextIsEmpty = messageText.trim().length === 0;
@@ -60,18 +56,16 @@ export default function ChatBox({ roomId }) {
         key={index}
         className={`my-1 flex ${author === "me" ? "justify-end" : "justify-start"}`}>
         {author === "other" && (
-          <img
+          <Image
             src={userImage}
             alt={message.data.userName}
+            width={32}
+            height={32}
             className="mr-2 h-8 w-8 rounded-full"
           />
         )}
         <div
-          className={`rounded p-2 ${
-            author === "me"
-              ? "bg-purple-500 text-white"
-              : "bg-pink-200 text-black"
-          }`}>
+          className={`rounded p-2 ${author === "me" ? "bg-purple-500 text-white" : "bg-pink-200 text-black"}`}>
           {author === "other" && (
             <span className="block text-xs font-semibold">
               {message.data.userName}
@@ -80,9 +74,11 @@ export default function ChatBox({ roomId }) {
           <span className="block">{message.data.text}</span>
         </div>
         {author === "me" && (
-          <img
+          <Image
             src={userImage}
             alt={message.data.userName}
+            width={32}
+            height={32}
             className="ml-2 h-8 w-8 rounded-full"
           />
         )}
@@ -129,7 +125,12 @@ export default function ChatBox({ roomId }) {
 
     fetchClubDetails();
     fetchPreviousMessages();
-  }, [roomId]);
+  }, [roomId, ably.channels]);
+
+  if (!session) {
+    router.push("/");
+    return null;
+  }
 
   return (
     <div className="flex h-screen items-center justify-center bg-gradient-to-b from-pink-100 via-pink-300 to-purple-100 text-white">
