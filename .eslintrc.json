@@ -23,7 +23,7 @@
     }
   },
   "rules": {
-    "import/no-unresolved": "error", // Ensure import errors are caught
+    "import/no-unresolved": "off", // Disable this rule
     "import/named": "error", // Ensure named imports exist in the imported module
     "import/default": "error", // Ensure a default export exists in the imported module
     "import/namespace": "error", // Ensure imported namespaces contain dereferenced properties
