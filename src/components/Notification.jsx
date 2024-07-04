@@ -38,7 +38,7 @@ const Notification = ({
           <span className="font-mono text-zinc-50">{message}</span>
         </div>
       </div>
-      <style jsx>{`
+      <style>{`
         @keyframes fadeIn {
           from {
             opacity: 0;

@@ -1,6 +1,8 @@
-import { Analytics } from "@vercel/analytics/react";
+/* eslint-disable import/no-unresolved */
+import {Analytics} from "@vercel/analytics/react";
+import {SessionProvider} from "next-auth/react";
 import posthog from "posthog-js";
-import { PostHogProvider } from "posthog-js/react";
+import {PostHogProvider} from "posthog-js/react";
 
 if (typeof window !== "undefined") {
   // checks that we are client-side
@@ -14,12 +16,14 @@ if (typeof window !== "undefined") {
   });
 }
 
-function App({ Component, pageProps }) {
+function App({ Component, pageProps: { session, ...pageProps } }) {
   return (
     <>
       <PostHogProvider client={posthog}>
-        <Component {...pageProps} />
-        <Analytics />
+        <SessionProvider session={session}>
+          <Component {...pageProps} />
+          <Analytics />
+        </SessionProvider>
       </PostHogProvider>
     </>
   );

@@ -1,17 +1,19 @@
-import React, { useEffect, useState } from "react";
-import FingerprintJS from "@fingerprintjs/fingerprintjs";
-import Image from "next/image";
 import FeedbackButton from "@/components/FeedbackButton";
+import LoadingIndicator from "@/components/LoadingIndicator";
 import Modal from "@/components/Modal";
 import Notification from "@/components/Notification";
 import ErrorPageComponent from "@/components/PageError";
 import PageLoading from "@/components/PageLoading";
-import LoadingIndicator from "@/components/LoadingIndicator";
+import WorkoutList from "@/components/WorkoutList";
 import { useClubs } from "@/hooks/useClubs";
 import { useReactionMutation } from "@/hooks/useReactionMutation";
-import WorkoutList from "@/components/WorkoutList";
+import FingerprintJS from "@fingerprintjs/fingerprintjs";
+import Image from "next/image";
+import { useEffect, useState } from "react";
+import { SignOut } from "./SignOut";
+import { SignIn } from "./SingIn";
 
-const Home = () => {
+export default function Home({ session }) {
   const { data: clubs, error, isLoading } = useClubs();
   const [visitorId, setVisitorId] = useState(null);
   const {
@@ -72,6 +74,9 @@ const Home = () => {
 
   return (
     <div className="relative flex min-h-screen flex-col items-center justify-center bg-gradient-to-r from-pink-200 to-purple-400 py-8">
+      <div className="absolute right-0 top-0 p-4">
+        {session ? <SignOut /> : <SignIn />}
+      </div>
       {mutationIsLoading && <LoadingIndicator />}
       <Notification
         message={notification}
@@ -80,6 +85,7 @@ const Home = () => {
       />
       <div className="absolute top-10 mt-[-40px]">
         <Image
+          priority={true}
           src="/logo.png"
           alt="Running Club"
           width={300} // Default size for mobile
@@ -103,6 +109,4 @@ const Home = () => {
       />
     </div>
   );
-};
-
-export default Home;
+}

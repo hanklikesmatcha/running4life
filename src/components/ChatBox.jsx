@@ -9,6 +9,10 @@ import Image from "next/image";
 export default function ChatBox({ roomId }) {
   const { data: session } = useSession();
   const router = useRouter();
+
+  if (!session) {
+    return router.push("/");
+  }
   const ably = useAbly(); // Use the Ably hook to get the client
 
   const [clubTitle, setClubTitle] = useState("");
