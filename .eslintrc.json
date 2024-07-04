@@ -29,7 +29,7 @@
     "import/default": "error",
     "import/namespace": "error",
     "no-unused-vars": "warn",
-    "react-hooks/rules-of-hooks": "ignore",
+    "react-hooks/rules-of-hooks": "off",
     "react-hooks/exhaustive-deps": "warn", // Checks effect
     "react/prop-types": "off" // Disable prop-types validation
   },
