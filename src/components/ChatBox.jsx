@@ -36,7 +36,9 @@ export default function ChatBox({ roomId }) {
   useEffect(() => {
     const fetchClubDetails = async () => {
       try {
-        const response = await fetch(`/api/clubs/${roomId}`);
+        const response = await fetch(
+          `/api/clubs/${roomId.replace("huddle:", "")}`
+        );
         const data = await response.json();
         setClubTitle(data.title);
       } catch (error) {
