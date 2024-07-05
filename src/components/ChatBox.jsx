@@ -14,27 +14,85 @@ export default function ChatBox({ roomId }) {
   if (!session) {
     return router.push("/");
   }
-  const ably = useAbly(); // Use the Ably hook to get the client
 
+  const ably = useAbly();
   const [clubTitle, setClubTitle] = useState("");
   const inputBoxRef = useRef(null);
   const messageEndRef = useRef(null);
   const [messageText, setMessageText] = useState("");
-  const [receivedMessages, setMessages] = useState([]);
+  const [messages, setMessages] = useState([]);
   const messageTextIsEmpty = messageText.trim().length === 0;
 
+  const messageIds = useRef(new Set());
+
+  const addMessage = (message) => {
+    if (!messageIds.current.has(message.id)) {
+      messageIds.current.add(message.id);
+      setMessages((prevMessages) => [...prevMessages, message]);
+    }
+  };
+
+  // Fetch historical messages and set initial state
+  useEffect(() => {
+    const fetchClubDetails = async () => {
+      try {
+        const response = await fetch(`/api/clubs/${roomId}`);
+        const data = await response.json();
+        setClubTitle(data.title);
+      } catch (error) {
+        console.error("Failed to fetch club details:", error);
+      }
+    };
+
+    const fetchPreviousMessages = async () => {
+      try {
+        const channel = ably.channels.get(roomId);
+        let messagesPage = await channel.history({
+          direction: "backwards",
+          limit: 100
+        });
+        let historicalMessages = [];
+
+        while (messagesPage) {
+          historicalMessages = [...messagesPage.items, ...historicalMessages];
+          if (messagesPage.hasNext()) {
+            messagesPage = await messagesPage.next();
+          } else {
+            break;
+          }
+        }
+
+        const newMessages = historicalMessages
+          .reverse()
+          .filter((message) => !messageIds.current.has(message.id));
+        newMessages.forEach((message) => messageIds.current.add(message.id));
+
+        setMessages((prevMessages) => [...newMessages, ...prevMessages]);
+      } catch (error) {
+        console.error("Failed to fetch previous messages:", error);
+      }
+    };
+
+    fetchClubDetails();
+    fetchPreviousMessages();
+  }, [ably.channels, roomId]);
+
+  // Subscribe to real-time messages
   const { channel } = useChannel(roomId, (message) => {
-    setMessages((prevMessages) => [...prevMessages, message]);
+    addMessage(message);
   });
 
   const sendChatMessage = (messageText) => {
+    const messageId = Date.now().toString(); // Generate a unique ID for each message
     const message = {
       text: messageText,
       userId: session.user.id,
       userName: session.user.name,
-      userImage: session.user.image
+      userImage: session.user.image,
+      id: messageId
     };
     channel.publish({ name: "chat-message", data: message });
+    // No need to add the message to the state here as it will be added by the subscription
     setMessageText("");
     inputBoxRef.current.focus();
   };
@@ -53,9 +111,9 @@ export default function ChatBox({ roomId }) {
     }
   };
 
-  const messages = receivedMessages.map((message, index) => {
+  const renderedMessages = messages.map((message, index) => {
     const author = message.data.userId === session.user.id ? "me" : "other";
-    const userImage = message.data.userImage || "/default-avatar.svg"; // Fallback to a default image if userImage is not available
+    const userImage = message.data.userImage || "/default-avatar.svg";
     return (
       <div
         key={index}
@@ -93,44 +151,7 @@ export default function ChatBox({ roomId }) {
 
   useEffect(() => {
     messageEndRef.current.scrollIntoView({ behavior: "smooth" });
-  }, [receivedMessages]);
-
-  useEffect(() => {
-    const fetchClubDetails = async () => {
-      try {
-        const response = await fetch(`/api/clubs/${roomId}`);
-        const data = await response.json();
-        setClubTitle(data.title); // Assuming the API response contains the title
-      } catch (error) {
-        console.error("Failed to fetch club details:", error);
-      }
-    };
-
-    const fetchPreviousMessages = async () => {
-      try {
-        const channel = ably.channels.get(roomId);
-        const messagesPage = await channel.history({
-          limit: 10,
-          direction: "backwards"
-        });
-        const historicalMessages = messagesPage.items.map((message) => ({
-          ...message,
-          data: {
-            text: message.data.text,
-            userId: message.data.userId,
-            userName: message.data.userName,
-            userImage: message.data.userImage
-          }
-        }));
-        setMessages(historicalMessages.reverse());
-      } catch (error) {
-        console.error("Failed to fetch previous messages:", error);
-      }
-    };
-
-    fetchClubDetails();
-    fetchPreviousMessages();
-  }, [ably.channels, roomId]);
+  }, [messages]);
 
   if (!session) {
     router.push("/");
@@ -152,7 +173,7 @@ export default function ChatBox({ roomId }) {
         </header>
         <div className="flex-grow overflow-y-auto p-4">
           <div className="flex flex-col space-y-2">
-            {messages}
+            {renderedMessages}
             <div ref={messageEndRef}></div>
           </div>
         </div>
