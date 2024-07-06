@@ -82,18 +82,20 @@ const ClubCard = ({ club, handleReaction }) => {
             </table>
           </div>
         </div>
-        <div className="relative mt-2 flex flex-wrap justify-around gap-2 pt-10">
+        <div className="relative mt-2 pt-10">
           <div className="absolute left-0 right-0 top-0 flex animate-rainbow justify-center text-base font-semibold text-zinc-950">
             Vibe
           </div>
-          {Object.entries(club.reactions).map(([emoji, count]) => (
-            <EmojiCounter
-              key={emoji}
-              emoji={emoji}
-              count={count}
-              onClick={() => handleReaction(club._id, emoji)}
-            />
-          ))}
+          <div className="sm:col-gap-2 grid grid-cols-3 gap-2 md:col-span-4 md:gap-4">
+            {Object.entries(club.reactions).map(([emoji, count]) => (
+              <EmojiCounter
+                key={emoji}
+                emoji={emoji}
+                count={count}
+                onClick={() => handleReaction(club._id, emoji)}
+              />
+            ))}
+          </div>
         </div>
         {club.photos && club.photos.length > 0 && (
           <div className="mt-4 grid grid-cols-3 gap-2">

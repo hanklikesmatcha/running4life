@@ -26,7 +26,7 @@ const WorkoutList = ({
       </div>
       <div className="flex w-full flex-col items-center">
         {activeTab === "Runs" ? (
-          <div className="flex min-h-[calc(100vh-120px)] w-full flex-col items-center gap-6 px-8 pb-10 pt-6 md:px-0">
+          <div className="flex min-h-[calc(100vh-120px)] w-full flex-col items-center gap-6 px-6 pb-10 pt-6 md:px-0">
             {clubs && clubs.length > 0 ? (
               clubs.map((club, index) => (
                 <ClubCard
