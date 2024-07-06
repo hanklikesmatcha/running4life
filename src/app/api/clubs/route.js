@@ -3,6 +3,8 @@ import Club from "@/models/club";
 import dbConnect from "@/utils/mongoose";
 import AWS from "aws-sdk";
 
+export const revalidate = 0;
+
 const parseTime = (timeStr) => {
   const [day, time] = timeStr.split(",").map((str) => str.trim());
   if (day === "-") return { day: "-", hour: 0, minute: 0 }; // Handle missing time
