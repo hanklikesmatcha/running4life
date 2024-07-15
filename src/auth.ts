@@ -12,7 +12,17 @@ const { NODE_ENV } = process.env;
 const DB_NAME =
   NODE_ENV === "development" ? "running4life" : "running4life-test";
 
-const providers = [Google];
+const providers = [
+  Google({
+    authorization: {
+      params: {
+        prompt: "consent",
+        access_type: "offline",
+        response_type: "code"
+      }
+    }
+  })
+];
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers,
