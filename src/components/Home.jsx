@@ -84,7 +84,7 @@ export default function Home({ session }) {
         onClose={() => setNotification("")}
       />
       <div className="absolute top-10 mt-[-40px]">
-        <Image
+        <img
           src="/logo.png"
           alt="Running Club"
           width={300} // Default size for mobile

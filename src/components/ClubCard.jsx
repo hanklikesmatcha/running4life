@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
 import { FaInstagram, FaLink } from "react-icons/fa";
 import EmojiCounter from "./EmojiCounter";
 import Notification from "./Notification";
@@ -103,10 +102,9 @@ const ClubCard = ({ club, handleReaction }) => {
               <div
                 key={index}
                 className="relative w-full overflow-hidden rounded-lg pb-9by16">
-                <Image
+                <img
                   src={photo.url || placeholderImage}
                   alt={`Club photo ${index + 1}`}
-                  layout="fill"
                   className="absolute h-full w-full object-cover"
                 />
               </div>
