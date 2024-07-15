@@ -85,7 +85,6 @@ export default function Home({ session }) {
       />
       <div className="absolute top-10 mt-[-40px]">
         <Image
-          priority={true}
           src="/logo.png"
           alt="Running Club"
           width={300} // Default size for mobile
