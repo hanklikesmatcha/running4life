@@ -52,11 +52,11 @@ const ClubCard = ({ club, handleReaction }) => {
               )}
             </a>
           </div>
-          <button
+          {/* <button
             onClick={handleButtonClick}
             className="btn btn-neutral btn-xs mt-2 border-4 border-fuchsia-800 text-rose-300 sm:btn-sm md:mt-0">
             Team Huddle
-          </button>
+          </button> */}
         </div>
         <p className="text-accent-content">{club.description}</p>
         <div className="mt-2 border-t pt-2">
