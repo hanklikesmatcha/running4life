@@ -34,47 +34,32 @@ const ClubCard = ({ club, handleReaction }) => {
       setNotificationType("error");
       return;
     }
-    setNotification("Adding to calendar...");
-    // Parse the time string
-    const [day, timeStr] = time.split(', ');
-    const [hours, minutes] = timeStr.split(':');
-    const ampm = minutes.slice(-2);
-    const hour = parseInt(hours) + (ampm.toLowerCase() === 'pm' && hours !== '12' ? 12 : 0);
-    
-    // Create a Date object for the next occurrence of the specified day
-    const eventDate = new Date();
-    const daysOfWeek = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
-    const targetDay = daysOfWeek.indexOf(day.toLowerCase().slice(0, 3));
-    eventDate.setDate(eventDate.getDate() + (targetDay + 7 - eventDate.getDay()) % 7);
-    eventDate.setHours(hour, parseInt(minutes.slice(0, -2)), 0, 0);
 
-    const formatDate = (date) => {
-      return date.toISOString().replace(/[-:]/g, "").split(".")[0] + "Z";
-    };
+    const eventDetails = `${title}\n${description}\nTime: ${time}\nLocation: ${location}`;
 
-    const icsContent = [
-      "BEGIN:VCALENDAR",
-      "VERSION:2.0",
-      "PRODID:-//hacksw/handcal//NONSGML v1.0//EN",
-      "BEGIN:VEVENT",
-      `DTSTART:${formatDate(eventDate)}`,
-      `DTEND:${formatDate(new Date(eventDate.getTime() + 1 * 60 * 60 * 1000))}`,
-      `SUMMARY:${title.replace(/,/g, "\\,")}`,
-      `DESCRIPTION:${description.replace(/,/g, "\\,")}`,
-      `LOCATION:${location.replace(/,/g, "\\,")}`,
-      "END:VEVENT",
-      "END:VCALENDAR"
-    ].join("\r\n");
+    if (navigator.share) {
+      navigator.share({
+        title: title,
+        text: eventDetails,
+      }).then(() => {
+        setNotification("Event details shared successfully!");
+        setNotificationType("success");
+      }).catch(() => {
+        copyToClipboard(eventDetails);
+      });
+    } else {
+      copyToClipboard(eventDetails);
+    }
+  };
 
-    const blob = new Blob([icsContent], { type: "text/calendar;charset=utf-8" });
-    const url = URL.createObjectURL(blob);
-
-    const link = document.createElement("a");
-    link.href = url;
-    link.setAttribute("download", `${title.replace(/[^a-z0-9]/gi, '_')}.ics`);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+  const copyToClipboard = (text) => {
+    navigator.clipboard.writeText(text).then(() => {
+      setNotification("Event details copied to clipboard!");
+      setNotificationType("success");
+    }).catch(() => {
+      setNotification("Couldn't copy to clipboard. Please add manually.");
+      setNotificationType("error");
+    });
   };
 
   return (
