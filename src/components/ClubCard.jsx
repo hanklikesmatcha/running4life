@@ -27,6 +27,56 @@ const ClubCard = ({ club, handleReaction }) => {
     router.push(`/clubs/${club._id}/huddle`);
   };
 
+  const handleAddCalendar = (club) => {
+    const { title, description, time, location } = club;
+    if (!title || !description || time === '-' || location === 'Varies') {
+      setNotification("Sorry! The run club is missing some information.");
+      setNotificationType("error");
+      return;
+    }
+    setNotification("Adding to calendar...");
+    // Parse the time string
+    const [day, timeStr] = time.split(', ');
+    const [hours, minutes] = timeStr.split(':');
+    const ampm = minutes.slice(-2);
+    const hour = parseInt(hours) + (ampm.toLowerCase() === 'pm' && hours !== '12' ? 12 : 0);
+    
+    // Create a Date object for the next occurrence of the specified day
+    const eventDate = new Date();
+    const daysOfWeek = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+    const targetDay = daysOfWeek.indexOf(day.toLowerCase().slice(0, 3));
+    eventDate.setDate(eventDate.getDate() + (targetDay + 7 - eventDate.getDay()) % 7);
+    eventDate.setHours(hour, parseInt(minutes.slice(0, -2)), 0, 0);
+
+    const formatDate = (date) => {
+      return date.toISOString().replace(/[-:]/g, "").split(".")[0] + "Z";
+    };
+
+    const icsContent = [
+      "BEGIN:VCALENDAR",
+      "VERSION:2.0",
+      "PRODID:-//hacksw/handcal//NONSGML v1.0//EN",
+      "BEGIN:VEVENT",
+      `DTSTART:${formatDate(eventDate)}`,
+      `DTEND:${formatDate(new Date(eventDate.getTime() + 1 * 60 * 60 * 1000))}`,
+      `SUMMARY:${title.replace(/,/g, "\\,")}`,
+      `DESCRIPTION:${description.replace(/,/g, "\\,")}`,
+      `LOCATION:${location.replace(/,/g, "\\,")}`,
+      "END:VEVENT",
+      "END:VCALENDAR"
+    ].join("\r\n");
+
+    const blob = new Blob([icsContent], { type: "text/calendar;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", `${title.replace(/[^a-z0-9]/gi, '_')}.ics`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <div className="hover:bg-primary-focus card w-full max-w-4xl bg-base-100 shadow-xl transition-colors duration-300">
       <Notification
@@ -52,6 +102,11 @@ const ClubCard = ({ club, handleReaction }) => {
               )}
             </a>
           </div>
+          <button
+            onClick={() => handleAddCalendar(club)}
+            className="btn btn-primary btn-xs mt-2 sm:btn-sm md:mt-0">
+            Add to Calendar
+          </button>
           {/* <button
             onClick={handleButtonClick}
             className="btn btn-neutral btn-xs mt-2 border-4 border-fuchsia-800 text-rose-300 sm:btn-sm md:mt-0">
