@@ -44,19 +44,34 @@ const sortByWeekdays = (clubs) => {
     if (aTimeParsed.day === "-") return 1;
     if (bTimeParsed.day === "-") return -1;
 
-    const aDayIndex = weekdayOrder.indexOf(aTimeParsed.day);
-    const bDayIndex = weekdayOrder.indexOf(bTimeParsed.day);
+    const aDate = getNextEventDate(aTimeParsed, weekdayOrder, now);
+    const bDate = getNextEventDate(bTimeParsed, weekdayOrder, now);
 
-    if (aDayIndex !== bDayIndex) {
-      return aDayIndex - bDayIndex;
-    }
-
-    // Compare times directly when on the same day
-    if (aTimeParsed.hour !== bTimeParsed.hour) {
-      return aTimeParsed.hour - bTimeParsed.hour;
-    }
-    return aTimeParsed.minute - bTimeParsed.minute;
+    return aDate - bDate;
   });
+};
+
+const getNextEventDate = (timeParsed, weekdayOrder, now) => {
+  const eventDate = new Date(now);
+  eventDate.setHours(timeParsed.hour, timeParsed.minute, 0, 0);
+
+  const todayIndex = weekdayOrder.indexOf(
+    now.toLocaleDateString("en-NZ", { weekday: "short" })
+  );
+  const eventDayIndex = weekdayOrder.indexOf(timeParsed.day);
+
+  if (
+    eventDayIndex < todayIndex ||
+    (eventDayIndex === todayIndex && eventDate <= now)
+  ) {
+    // Event is in the next week
+    eventDate.setDate(eventDate.getDate() + 7 - todayIndex + eventDayIndex);
+  } else {
+    // Event is later this week
+    eventDate.setDate(eventDate.getDate() + eventDayIndex - todayIndex);
+  }
+
+  return eventDate;
 };
 
 const s3 = new AWS.S3({
