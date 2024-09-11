@@ -112,15 +112,15 @@ export async function GET() {
     // Sort clubs by weekdays
     const sortedClubs = sortByWeekdays(clubs);
 
-    const clubsWithSignedUrls = sortedClubs.map((club) => {
-      club.photos = club.photos.map((photo) => {
-        photo.url = getSignedUrl(photo.url); // Assuming 'key' is the field that stores the S3 key
-        return photo;
-      });
-      return club;
-    });
+    // const clubsWithSignedUrls = sortedClubs.map((club) => {
+    //   club.photos = club.photos.map((photo) => {
+    //     photo.url = getSignedUrl(photo.url); // Assuming 'key' is the field that stores the S3 key
+    //     return photo;
+    //   });
+    //   return club;
+    // });
 
-    return new Response(JSON.stringify(clubsWithSignedUrls), {
+    return new Response(JSON.stringify(sortedClubs), {
       headers: { "Content-Type": "application/json" }
     });
   } catch (error) {
