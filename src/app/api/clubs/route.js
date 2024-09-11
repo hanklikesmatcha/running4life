@@ -51,22 +51,11 @@ const sortByWeekdays = (clubs) => {
       return aDayIndex - bDayIndex;
     }
 
-    const aDate = new Date(now);
-    aDate.setHours(aTimeParsed.hour, aTimeParsed.minute, 0, 0);
-    while (aDate.getDay() !== weekdayOrder.indexOf(aTimeParsed.day)) {
-      aDate.setDate(aDate.getDate() + 1);
+    // Compare times directly when on the same day
+    if (aTimeParsed.hour !== bTimeParsed.hour) {
+      return aTimeParsed.hour - bTimeParsed.hour;
     }
-
-    const bDate = new Date(now);
-    bDate.setHours(bTimeParsed.hour, bTimeParsed.minute, 0, 0);
-    while (bDate.getDay() !== weekdayOrder.indexOf(bTimeParsed.day)) {
-      bDate.setDate(bDate.getDate() + 1);
-    }
-
-    if (aDate < now && bDate >= now) return 1;
-    if (aDate >= now && bDate < now) return -1;
-
-    return aDate - bDate;
+    return aTimeParsed.minute - bTimeParsed.minute;
   });
 };
 
